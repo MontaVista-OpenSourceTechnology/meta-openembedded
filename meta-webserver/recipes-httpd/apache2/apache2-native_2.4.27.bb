@@ -8,8 +8,10 @@ LICENSE = "Apache-2.0"
 
 inherit autotools pkgconfig native
 
+PR = "r1"
 SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://0001-configure-use-pkg-config-for-PCRE-detection.patch \
+           file://CVE-2018-1333.patch \
           "
 
 S = "${WORKDIR}/httpd-${PV}"
