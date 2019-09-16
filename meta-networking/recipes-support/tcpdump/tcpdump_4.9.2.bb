@@ -5,11 +5,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867"
 SECTION = "net"
 DEPENDS = "libpcap"
 
+PR .= ".1"
+
 SRC_URI = " \
     http://www.tcpdump.org/release/${BP}.tar.gz \
     file://unnecessary-to-check-libpcap.patch \
     file://add-ptest.patch \
     file://run-ptest \
+    file://0001-CVE-2017-16808-AoE-Add-a-missing-bounds-check.patch \
 "
 
 SRC_URI[md5sum] = "9bbc1ee33dab61302411b02dd0515576"
