@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://hostapd/README;md5=8aa4e8c78b59b12016c4cb2d0a8db350"
 
 DEPENDS = "libnl openssl"
 
+PR = "r1"
+
 SRC_URI = " \
     http://w1.fi/releases/hostapd-${PV}.tar.gz \
     file://defconfig \
@@ -19,6 +21,7 @@ SRC_URI = " \
     file://0006-TDLS-Reject-TPK-TK-reconfiguration.patch \
     file://0007-FT-Do-not-allow-multiple-Reassociation-Response-fram.patch \
     file://hostapd-CVE-2018-14526.patch \
+    file://CVE-2019-16275.patch \
 "
 
 SRC_URI[md5sum] = "eaa56dce9bd8f1d195eb62596eab34c7"
