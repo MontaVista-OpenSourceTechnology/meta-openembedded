@@ -5,11 +5,14 @@ LICENSE = "GPL-2.0"
 
 LIC_FILES_CHKSUM = "file://COPYING;beginline=7;endline=12;md5=1489288f46af415fadc4e8b6345ab9f4"
 
+PR .= ".1"
+
 SRC_URI = "http://nmap.org/dist/${BP}.tar.bz2 \
            file://nmap-redefine-the-python-library-dir.patch \
            file://nmap-replace-shtool-mkdir-with-coreutils-mkdir-command.patch \
            file://0001-include-time.h-for-time-structure-definition.patch \
            file://0002-Fix-building-with-libc.patch \
+           file://CVE-2017-18594.patch \
            "
 
 SRC_URI[md5sum] = "84eb6fbe788e0d4918c2b1e39421bf79"
