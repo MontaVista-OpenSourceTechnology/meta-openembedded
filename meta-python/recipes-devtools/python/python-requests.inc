@@ -3,6 +3,13 @@ HOMEPAGE = "http://python-requests.org"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=979d6a23b143e13ea0e5e3aa81248820"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/python-requests:"
+
+SRC_URI_append = " file://CVE-2018-18074.patch \
+                   file://CVE-2018-18074_1.patch \
+                   "
+PR .= ".1"
+
 SRC_URI[md5sum] = "081412b2ef79bdc48229891af13f4d82"
 SRC_URI[sha256sum] = "9c443e7324ba5b85070c4a818ade28bfabedf16ea10206da1132edaa6dda237e"
 
