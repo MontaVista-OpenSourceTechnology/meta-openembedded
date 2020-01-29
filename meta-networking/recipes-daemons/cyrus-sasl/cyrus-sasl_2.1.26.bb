@@ -5,6 +5,8 @@ DEPENDS = "openssl virtual/db"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://COPYING;md5=3f55e0974e3d6db00ca6f57f2d206396"
 
+PR .= ".1"
+
 SRC_URI = "ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-${PV}.tar.gz \
     file://avoid-to-call-AC_TRY_RUN.patch \
     file://Fix-hardcoded-libdir.patch \
@@ -13,6 +15,7 @@ SRC_URI = "ftp://ftp.cyrusimap.org/cyrus-sasl/cyrus-sasl-${PV}.tar.gz \
     file://sasl.h-include-stddef.h-for-size_t-on-NetBSD.patch \
     file://saslauthd.service \
     file://saslauthd.conf \
+    file://CVE-2019-19906.patch \
 "
 
 inherit autotools-brokensep pkgconfig useradd systemd
