@@ -11,6 +11,8 @@ SECTION = "net"
 
 DEPENDS = "libpcre zlib openssl"
 
+PR .= ".3"
+
 SRC_URI = " \
     http://nginx.org/download/nginx-${PV}.tar.gz \
     file://nginx-cross.patch \
@@ -18,6 +20,10 @@ SRC_URI = " \
     file://nginx.init \
     file://nginx-volatile.conf \
     file://nginx.service \
+    file://CVE-2018-16845.patch \
+    file://0001-CVE-2018-16843-nginx-Excessive-memory-consumption-vi.patch \
+    file://0002-CVE-2018-16844-nginx-Excessive-CPU-usage-via-flaw-in.patch \
+    file://CVE-2019-20372.patch \
 "
 
 inherit update-rc.d useradd systemd
