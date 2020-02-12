@@ -1,7 +1,10 @@
 require dnsmasq.inc
 
+PR .= ".1"
+
 SRC_URI += "\
     file://lua.patch \
+    file://CVE-2019-14834.patch \
 "
 
 SRC_URI[dnsmasq-2.78.md5sum] = "3bb97f264c73853f802bf70610150788"
