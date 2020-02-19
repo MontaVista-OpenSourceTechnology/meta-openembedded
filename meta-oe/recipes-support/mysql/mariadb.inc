@@ -2,7 +2,7 @@ SUMMARY = "A robust, scalable, and reliable SQL server"
 HOMEPAGE = "http://mariadb.org"
 SECTION = "libs"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+LIC_FILES_CHKSUM = "file://COPYING;md5=b1becf0cfa3366e0f4d854d1d264f311"
 
 SRC_URI = "https://downloads.mariadb.org/f/${BP}/source/${BP}.tar.gz \
            file://fix-cmake-module-path.patch \
@@ -19,8 +19,8 @@ SRC_URI = "https://downloads.mariadb.org/f/${BP}/source/${BP}.tar.gz \
            file://0001-disable-ucontext-on-musl.patch \
           "
 
-SRC_URI[md5sum] = "f91b31638d4dc47ed43172e56bec2cb7"
-SRC_URI[sha256sum] = "ef1cf79eec32ced9d1051998a8e458bb33dfbc62de297cba37ee8e9f952b21ea"
+SRC_URI[md5sum] = "0a1d9a9ae10fd6589ce5e57586c9418c"
+SRC_URI[sha256sum] = "a622b2db2f02f5fb97dcd4978366c0b49716dfed3698fe4b826dd910fe7b7b85"
 
 S = "${WORKDIR}/mariadb-${PV}"
 
