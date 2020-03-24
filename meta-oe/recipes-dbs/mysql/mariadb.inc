@@ -2,7 +2,7 @@ SUMMARY = "A robust, scalable, and reliable SQL server"
 HOMEPAGE = "http://mariadb.org"
 SECTION = "libs"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+LIC_FILES_CHKSUM = "file://COPYING;md5=b1becf0cfa3366e0f4d854d1d264f311"
 
 SRC_URI = "http://archive.mariadb.org/${BP}/source/${BP}.tar.gz \
            file://fix-cmake-module-path.patch \
@@ -18,8 +18,8 @@ SRC_URI = "http://archive.mariadb.org/${BP}/source/${BP}.tar.gz \
            file://change-cc-to-cc-version.patch \
            file://0001-disable-ucontext-on-musl.patch \
           "
-SRC_URI[md5sum] = "03968ae08cff3038e2420921ef257550"
-SRC_URI[sha256sum] = "c103f3c54741b296980d6be48b221340eebaa97c6bd95a02fd8d530a5df5c343"
+SRC_URI[md5sum] = "0a1d9a9ae10fd6589ce5e57586c9418c"
+SRC_URI[sha256sum] = "a622b2db2f02f5fb97dcd4978366c0b49716dfed3698fe4b826dd910fe7b7b85"
 
 UPSTREAM_CHECK_URI = "https://github.com/MariaDB/server/releases"
 
