@@ -7,11 +7,16 @@ DEPENDS = "ncurses gettext-native"
 RSUGGESTS_${PN} = "diffutils"
 LICENSE = "vim"
 LIC_FILES_CHKSUM = "file://../runtime/doc/uganda.txt;endline=287;md5=f1f82b42360005c70b8c19b0ef493f72"
+PR .= ".1" 
 
 SRC_URI = "git://github.com/vim/vim.git \
            file://disable_acl_header_check.patch;patchdir=.. \
            file://vim-add-knob-whether-elf.h-are-checked.patch;patchdir=.. \
            file://0001-src-Makefile-improve-reproducibility.patch;patchdir=.. \
+           file://CVE-2019-20079-p1.patch;patchdir=.. \
+           file://CVE-2019-20079-p2.patch;patchdir=.. \
+           file://CVE-2019-20079-p3.patch;patchdir=.. \
+           file://CVE-2019-20079-p4.patch;patchdir=.. \
 "
 SRCREV = "f1c118be93184e8e57e3e80b1b3383f464ed649e"
 
