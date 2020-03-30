@@ -14,6 +14,8 @@ SECTION = "libs"
 
 LDAP_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
+PR .= ".1"
+
 SRC_URI = "ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/${BP}.tgz \
     file://openldap-m4-pthread.patch \
     file://kill-icu.patch \
@@ -24,6 +26,10 @@ SRC_URI = "ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/${BP}.tgz \
     file://thread_stub.patch \
     file://openldap-CVE-2015-3276.patch \
     file://remove-user-host-pwd-from-version.patch \
+    file://CVE-2019-13057-p1.patch \
+    file://CVE-2019-13057-p2.patch \
+    file://CVE-2019-13057-p3.patch \
+    file://CVE-2019-13057-p4.patch \
 "
 
 SRC_URI[md5sum] = "829016c5a9f45c51adc50073ac6f9fd7"
