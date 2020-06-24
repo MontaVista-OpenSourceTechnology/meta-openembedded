@@ -14,23 +14,25 @@ SECTION = "libs"
 
 LDAP_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-PR .= ".1"
+PR .= ".2"
 
 SRC_URI = "ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/${BP}.tgz \
-    file://openldap-m4-pthread.patch \
-    file://kill-icu.patch \
-    file://openldap-2.4.28-gnutls-gcrypt.patch \
-    file://use-urandom.patch \
-    file://initscript \
-    file://slapd.service \
-    file://thread_stub.patch \
-    file://openldap-CVE-2015-3276.patch \
-    file://remove-user-host-pwd-from-version.patch \
-    file://CVE-2019-13057-p1.patch \
-    file://CVE-2019-13057-p2.patch \
-    file://CVE-2019-13057-p3.patch \
-    file://CVE-2019-13057-p4.patch \
-"
+           file://openldap-m4-pthread.patch \
+           file://kill-icu.patch \
+           file://openldap-2.4.28-gnutls-gcrypt.patch \
+           file://use-urandom.patch \
+           file://initscript \
+           file://slapd.service \
+           file://thread_stub.patch \
+           file://openldap-CVE-2015-3276.patch \
+           file://remove-user-host-pwd-from-version.patch \
+           file://CVE-2019-13057-p1.patch \
+           file://CVE-2019-13057-p2.patch \
+           file://CVE-2019-13057-p3.patch \
+           file://CVE-2019-13057-p4.patch \
+           file://install-strip.patch \
+           file://CVE-2020-12243.patch \
+           "
 
 SRC_URI[md5sum] = "829016c5a9f45c51adc50073ac6f9fd7"
 SRC_URI[sha256sum] = "9a90dcb86b99ae790ccab93b7585a31fbcbeec8c94bf0f7ab0ca0a87ea0c4b2d"
@@ -40,7 +42,6 @@ DEPENDS = "util-linux groff-native"
 # The original top.mk used INSTALL, not INSTALL_STRIP_PROGRAM when
 # installing .so and executables, this fails in cross compilation
 # environments
-SRC_URI += "file://install-strip.patch"
 
 inherit autotools-brokensep update-rc.d systemd
 
