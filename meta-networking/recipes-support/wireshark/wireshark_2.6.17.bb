@@ -10,12 +10,12 @@ DEPENDS_append_class-target = " wireshark-native chrpath-replacement-native "
 
 SRC_URI = "https://1.as.dl.wireshark.org/src/all-versions/${BP}.tar.xz \
            file://0001-Add-libm-to-link-for-fmod-API.patch \
-          "
+           "
 
 UPSTREAM_CHECK_URI = "https://1.as.dl.wireshark.org/src"
 
-SRC_URI[md5sum] = "60559a9c45a29044f3a3850a1e014ca1"
-SRC_URI[sha256sum] = "889f94d2e2419afe9fb2c3c552bca165ce144cab413bae99f14b575a4d479638"
+SRC_URI[md5sum] = "f876e0ab8670263b8771127709701a58"
+SRC_URI[sha256sum] = "eb37fa54f35ca56fa3532d4cf391c0600e1d068f6c1503918024c553d8067eff"
 
 PE = "1"
 
