@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/vim/vim.git \
            file://CVE-2019-20079-p2.patch;patchdir=.. \
            file://CVE-2019-20079-p3.patch;patchdir=.. \
            file://CVE-2019-20079-p4.patch;patchdir=.. \
-           file://CVE-2019-20807;patchdir=.. \
+           file://CVE-2019-20807.patch;patchdir=.. \
 "
 SRCREV = "f1c118be93184e8e57e3e80b1b3383f464ed649e"
 
