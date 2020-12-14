@@ -4,7 +4,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b1becf0cfa3366e0f4d854d1d264f311"
 
-SRC_URI = "https://downloads.mariadb.org/f/${BP}/source/${BP}.tar.gz \
+SRC_URI = "https://downloads.mariadb.org/interstitial/${BP}/source/${BP}.tar.gz \
            file://fix-cmake-module-path.patch \
            file://remove-bad-path.patch \
            file://fix-mysqlclient-r-version.patch \
@@ -19,8 +19,8 @@ SRC_URI = "https://downloads.mariadb.org/f/${BP}/source/${BP}.tar.gz \
            file://0001-disable-ucontext-on-musl.patch \
           "
 
-SRC_URI[md5sum] = "0a1d9a9ae10fd6589ce5e57586c9418c"
-SRC_URI[sha256sum] = "a622b2db2f02f5fb97dcd4978366c0b49716dfed3698fe4b826dd910fe7b7b85"
+SRC_URI[md5sum] = "342a5b3c9895280d1ef512fbef6cb60e"
+SRC_URI[sha256sum] = "23ff96db2215d3d2eb8697488719153c83ac4d131f504ae397f43c14c6d91ba3"
 
 S = "${WORKDIR}/mariadb-${PV}"
 
