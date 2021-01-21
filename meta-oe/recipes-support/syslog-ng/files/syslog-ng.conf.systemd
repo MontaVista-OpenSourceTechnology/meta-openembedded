@@ -1,4 +1,4 @@
-@version: 3.8
+@version: 3.15
 #
 # Syslog-ng configuration file, compatible with default Debian syslogd
 # installation. Originally written by anonymous (I can't find his name)
@@ -16,7 +16,7 @@ options { chain_hostnames(off); flush_lines(0); use_dns(no); use_fqdn(no);
 # This is the default behavior of sysklogd package
 # Logs may come from unix stream, but not from another machine.
 #
-source s_src { unix-dgram("/dev/log"); internal();
+source s_src { systemd_journal(); internal();
        	     file("/proc/kmsg" program_override("kernel"));
 };
 
