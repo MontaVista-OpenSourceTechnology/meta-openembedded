@@ -112,12 +112,17 @@ ${datadir}/${BPN}/include/scl/logmatic \
 "
 
 # This overcomes the syslog-ng rdepends on syslog-ng-dev QA Error
-PACKAGES =+ "${PN}-jconf ${PN}-libs ${PN}-libs-dev"
+PACKAGES =+ "${PN}-jconf ${PN}-libs ${PN}-libs-dev ${PN}-eventlog"
 RPROVIDES_${PN}-dbg += "${PN}-libs-dbg"
 FILES_${PN}-libs = "${libdir}/${BPN}/*.so ${libdir}/libsyslog-ng-*.so*"
 FILES_${PN}-libs-dev = "${libdir}/${BPN}/lib*.la"
 FILES_${PN}-staticdev += "${libdir}/${BPN}/libtest/*.a"
+FILES_${PN}-eventlog += " \
+  ${libdir}/libevtlog*.so* \
+  ${libdir}/libevtlog*.la \
+"
 INSANE_SKIP_${PN}-libs = "dev-so"
+INSANE_SKIP_${PN}-eventlog = "dev-so"
 RDEPENDS_${PN} += "${PN}-libs"
 
 CONFFILES_${PN} = "${sysconfdir}/${BPN}.conf ${sysconfdir}/scl.conf"
@@ -127,6 +132,10 @@ CONFFILES_${PN} = "${sysconfdir}/${BPN}.conf ${sysconfdir}/scl.conf"
 RDEPENDS_${PN} += " ${@base_conditional("ONLINE_PACKAGE_MANAGEMENT", "none", "", "update-rc.d", d)}"
 
 RCONFLICTS_${PN} = "busybox-syslog sysklogd rsyslog"
+
+RPROVIDES_${PN}-eventlog += "eventlog-dev"
+RREPLACES_${PN}-eventlog += "eventlog-dev"
+RCONFLICTS_${PN}-eventlog += "eventlog-dev"
 
 RPROVIDES_${PN} += "${PN}-systemd"
 RREPLACES_${PN} += "${PN}-systemd"
