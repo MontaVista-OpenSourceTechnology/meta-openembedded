@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.tcpdump.org/"
 SECTION = "net"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867"
-
+PR .= ".1"
 DEPENDS = "libpcap"
 
 RDEPENDS_${PN}-ptest += " make perl \
@@ -17,6 +17,7 @@ SRC_URI = " \
     file://avoid-absolute-path-when-searching-for-libdlpi.patch \
     file://add-ptest.patch \
     file://run-ptest \
+    file://CVE-2020-8037.patch \
 "
 
 SRC_URI[md5sum] = "a4ead41d371f91aa0a2287f589958bae"
