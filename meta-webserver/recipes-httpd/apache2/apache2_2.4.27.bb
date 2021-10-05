@@ -34,6 +34,10 @@ SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://CVE-2018-17189_p2.patch \
            file://CVE-2020-9490.patch \
            file://CVE-2021-26691.patch \
+           file://CVE-2021-40438-pre1.patch \
+           file://CVE-2021-40438.patch \
+           file://CVE-2021-40438-2.patch \
+           file://CVE-2021-40438-3.patch \
            "
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=dbff5a2b542fa58854455bf1a0b94b83"
