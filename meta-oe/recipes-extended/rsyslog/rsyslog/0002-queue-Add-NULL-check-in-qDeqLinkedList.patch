@@ -1,0 +1,94 @@
+From fb5b3ce49581ab220dea6499c0c32783b7446664 Mon Sep 17 00:00:00 2001
+From: Andre lorbach <alorbach@adiscon.com>
+Date: Thu, 2 Sep 2021 23:33:18 +0200
+Subject: [PATCH 2/2] queue: Add NULL check in qDeqLinkedList
+
+Add NULL value handling for pDeqRoot. This caused seqfaults if
+messages were discarded during dequeue.
+
+Also fix iOverallQueueSize calculation (discarded items) in imdiag.
+
+While building a testcase for issue #4437 , I discovered an issue with the
+iOverallQueueSize counter not being substracting discarded messages. This caused
+the testcase to fail with testcase timeout at the count of "discardMark" queue
+setting.
+
+closes: https://github.com/rsyslog/rsyslog/issues/4437
+
+Upstream Status: Backport https://github.com/rsyslog/rsyslog/commit/74a49d3b63
+
+Signed-off-by: Anand Je Sypureddy <anandje@mvista.com>
+---
+ plugins/imdiag/imdiag.c |  3 ++-
+ runtime/queue.c         | 27 +++++++++++++++++++++++----
+ 2 files changed, 25 insertions(+), 5 deletions(-)
+
+diff --git a/plugins/imdiag/imdiag.c b/plugins/imdiag/imdiag.c
+index 37710b6..52f6191 100644
+--- a/plugins/imdiag/imdiag.c
++++ b/plugins/imdiag/imdiag.c
+@@ -311,6 +311,7 @@ static rsRetVal
+ waitMainQEmpty(tcps_sess_t *pSess)
+ {
+ 	int iPrint = 0;
++	int iPrintVerbosity = 500; // 500 default
+ 	int nempty = 0;
+ 	DEFiRet;
+ 
+@@ -322,7 +323,7 @@ waitMainQEmpty(tcps_sess_t *pSess)
+ 			nempty = 0;
+ 		if(nempty > 10)
+ 			break;
+-		if(iPrint++ % 500 == 0)
++		if(iPrint++ % iPrintVerbosity == 0)
+ 			DBGPRINTF("imdiag sleeping, wait queues drain, "
+ 				"curr size %d, nempty %d\n",
+ 				iOverallQueueSize, nempty);
+diff --git a/runtime/queue.c b/runtime/queue.c
+index 67f6d31..9e1f7e3 100644
+--- a/runtime/queue.c
++++ b/runtime/queue.c
+@@ -673,8 +673,15 @@ static rsRetVal qDeqLinkedList(qqueue_t *pThis, smsg_t **ppMsg)
+ 	DEFiRet;
+ 
+ 	pEntry = pThis->tVars.linklist.pDeqRoot;
+-	*ppMsg = pEntry->pMsg;
+-	pThis->tVars.linklist.pDeqRoot = pEntry->pNext;
++	if (pEntry != NULL) {
++		*ppMsg = pEntry->pMsg;
++		pThis->tVars.linklist.pDeqRoot = pEntry->pNext;
++	} else {
++		/* Check and return NULL for linklist.pDeqRoot */
++		dbgprintf("qDeqLinkedList: pDeqRoot is NULL!\n");
++		*ppMsg = NULL;
++		pThis->tVars.linklist.pDeqRoot = NULL;
++	}
+ 
+ 	RETiRet;
+ }
+@@ -1749,8 +1756,20 @@ DequeueConsumableElements(qqueue_t *pThis, wti_t *pWti, int *piRemainingQueueSiz
+ 	/* it is sufficient to persist only when the bulk of work is done */
+ 	qqueueChkPersist(pThis, nDequeued+nDiscarded+nDeleted);
+ 
+-	DBGOPRINT((obj_t*) pThis, "dequeued %d consumable elements, szlog %d sz phys %d\n",
+-		nDequeued, getLogicalQueueSize(pThis), getPhysicalQueueSize(pThis));
++	/* If messages where DISCARDED, we need to substract them from the OverallQueueSize */
++#	ifdef ENABLE_IMDIAG
++#		ifdef HAVE_ATOMIC_BUILTINS
++			ATOMIC_SUB(&iOverallQueueSize, nDiscarded, &NULL);
++#		else
++			iOverallQueueSize -= nDiscarded; /* racy, but we can't wait for a mutex! */
++#		endif
++	DBGOPRINT((obj_t*) pThis, "dequeued %d discarded %d QueueSize %d consumable elements, szlog %d sz phys %d\n",
++		nDequeued, nDiscarded, iOverallQueueSize, getLogicalQueueSize(pThis), getPhysicalQueueSize(pThis));
++#	else
++	DBGOPRINT((obj_t*) pThis, "dequeued %d discarded %d consumable elements, szlog %d sz phys %d\n",
++		nDequeued, nDiscarded, getLogicalQueueSize(pThis), getPhysicalQueueSize(pThis));
++#	endif
++
+ 	pWti->batch.nElem = nDequeued;
+ 	pWti->batch.nElemDeq = nDequeued + nDiscarded;
+ 	pWti->batch.deqID = getNextDeqID(pThis);
+-- 
+2.25.1
+
