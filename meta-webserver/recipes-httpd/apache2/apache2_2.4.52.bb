@@ -4,6 +4,7 @@ SUMMARY = "Apache HTTP Server"
 HOMEPAGE = "http://httpd.apache.org/"
 SECTION = "net"
 LICENSE = "Apache-2.0"
+PR .= "1"
 
 SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://0001-configure-use-pkg-config-for-PCRE-detection.patch \
@@ -15,6 +16,7 @@ SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://0007-apache2-allow-to-disable-selinux-support.patch \
            file://apache-configure_perlbin.patch \
            file://0001-support-apxs.in-force-destdir-to-be-empty-string.patch \
+           file://0001-CVE-2021-41773.patch \
           "
 
 SRC_URI_append_class-target = " \
