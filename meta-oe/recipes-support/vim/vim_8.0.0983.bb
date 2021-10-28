@@ -6,13 +6,14 @@ RSUGGESTS_${PN} = "diffutils"
 LICENSE = "vim"
 LIC_FILES_CHKSUM = "file://../runtime/doc/uganda.txt;md5=eea32ac1424bba14096736a494ae9045"
 
-PR = ".2"
+PR = ".3"
 
 SRC_URI = "git://github.com/vim/vim.git \
            file://disable_acl_header_check.patch;patchdir=.. \
            file://vim-add-knob-whether-elf.h-are-checked.patch;patchdir=.. \
            file://CVE-2019-12735.patch;patchdir=.. \
            file://CVE-2019-20807.patch;patchdir=.. \
+           file://0001-CVE-2021-3872.patch;patchdir=..\
 "
 SRCREV = "3f9a1ff141412e9e85f7dff47d02946cb9be9228"
 
