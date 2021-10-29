@@ -6,7 +6,7 @@ DEPENDS = "libtool-native apache2-native openssl expat pcre apr apr-util"
 SECTION = "net"
 LICENSE = "Apache-2.0"
 
-PR = "r9"
+PR = "r10"
 SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://server-makefile.patch \
            file://httpd-2.4.1-corelimit.patch \
@@ -39,6 +39,10 @@ SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://CVE-2021-40438-2.patch \
            file://CVE-2021-40438-3.patch \
            file://0001-CVE-2021-34798.patch \
+	   file://CVE-2020-35452.patch \
+	   file://CVE-2021-26690.patch \
+	   file://CVE-2021-30641.patch \
+	   file://CVE-2021-31618.patch \
            "
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=dbff5a2b542fa58854455bf1a0b94b83"
