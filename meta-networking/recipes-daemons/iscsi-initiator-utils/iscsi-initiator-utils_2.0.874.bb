@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
 
 SRCREV ?= "8db9717e73d32d2c5131da4f9ad86dfd9065f74b"
 
-PR .= "1"
+PR .= "2"
 SRC_URI = "git://github.com/open-iscsi/open-iscsi \
     file://iscsi-initiator-utils-Do-not-clean-kernel-source.patch \
     file://iscsi-initiator-utils-fw_context-add-include-for-NI_MAXHOST-definiton.patch \
@@ -24,6 +24,7 @@ SRC_URI = "git://github.com/open-iscsi/open-iscsi \
     file://iscsi-initiator-targets.service \
     file://set_initiatorname \
     file://0001-CVE-2020-13988.patch \
+    file://0001-CVE-2020-13987.patch \
 "
 
 S = "${WORKDIR}/git"
