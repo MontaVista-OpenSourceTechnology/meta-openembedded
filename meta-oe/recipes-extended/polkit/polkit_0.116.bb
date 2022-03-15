@@ -26,6 +26,7 @@ PR .= ".1"
 SRC_URI = "http://www.freedesktop.org/software/polkit/releases/polkit-${PV}.tar.gz \
            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
            file://0003-make-netgroup-support-optional.patch \
+           file://CVE-2021-3560.patch \
            file://CVE-2021-4034.patch \
            file://0001-CVE-2021-3560.patch \
            file://0001-GHSL-2021-074-authentication-bypass-vulnerability-in.patch \
