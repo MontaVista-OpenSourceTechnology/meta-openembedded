@@ -15,9 +15,6 @@ SRC_URI = "http://download.strongswan.org/strongswan-${PV}.tar.bz2 \
            file://CVE-2021-41990.patch \
            file://CVE-2021-41991.patch \
            file://CVE-2021-45079.patch \
-           file://0001-CVE-2021-41990.patch \
-           file://0002-CVE-2021-41991.patch \
-	   file://0001-CVE-2021-45079.patch \
            "
 
 SRC_URI[md5sum] = "0634e7f40591bd3f6770e583c3f27d29"
