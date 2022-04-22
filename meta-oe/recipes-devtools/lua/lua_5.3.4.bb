@@ -7,7 +7,9 @@ HOMEPAGE = "http://www.lua.org/"
 DEPENDS = "readline"
 SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
            file://lua.pc.in \
+           file://0001-CVE-2022-28805.patch \
            "
+PR .= ".1"
 SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', \
            'http://www.lua.org/tests/lua-${PV}-tests.tar.gz;name=tarballtest \
             file://run-ptest \
