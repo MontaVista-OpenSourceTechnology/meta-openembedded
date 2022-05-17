@@ -10,7 +10,9 @@ SRC_URI = "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=tarballsrc \
            file://CVE-2020-15888.patch \
            file://CVE-2020-15945.patch \
            file://0001-Fixed-bug-barriers-cannot-be-active-during-sweep.patch \
+           file://0001-CVE-2022-28805.patch \
            "
+PR .= ".1"
 
 # if no test suite matches PV release of Lua exactly, download the suite for the closest Lua release.
 PV_testsuites = "5.3.4"
