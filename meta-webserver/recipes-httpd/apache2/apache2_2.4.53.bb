@@ -4,7 +4,7 @@ SUMMARY = "Apache HTTP Server"
 HOMEPAGE = "http://httpd.apache.org/"
 SECTION = "net"
 LICENSE = "Apache-2.0"
-PR .= "5"
+PR .= "6"
 
 SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://0001-configure-use-pkg-config-for-PCRE-detection.patch \
@@ -14,8 +14,6 @@ SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://0005-replace-lynx-to-curl-in-apachectl-script.patch \
            file://0006-apache2-fix-the-race-issue-of-parallel-installation.patch \
            file://0007-apache2-allow-to-disable-selinux-support.patch \
-           file://0001-CVE-2022-22720.patch \
-           file://0001-CVE-2022-23943.patch \
            file://0008-Fix-perl-install-directory-to-usr-bin.patch \
            file://0009-support-apxs.in-force-destdir-to-be-empty-string.patch \
           "
