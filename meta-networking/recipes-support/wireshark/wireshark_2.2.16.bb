@@ -6,13 +6,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e271234ba1a13c6e512e76b94ac2f77"
 
 DEPENDS = "pcre expat glib-2.0 glib-2.0-native"
 
-PR .= ".4"
+PR .= ".5"
 
 SRC_URI = "https://2.na.dl.wireshark.org/src/all-versions/${BP}.tar.bz2 \
 	   file://CVE-2020-9430_p1.patch \
 	   file://CVE-2020-9430_p2.patch \
 	   file://CVE-2020-9431.patch \
 	   file://CVE-2020-11647.patch \
+	   file://CVE-2021-22207.patch \
           "
 
 PE = "1"
