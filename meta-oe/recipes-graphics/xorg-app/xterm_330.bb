@@ -4,11 +4,12 @@ DEPENDS = "libxaw xproto xextproto libxext libxau libxinerama libxpm ncurses"
 
 LIC_FILES_CHKSUM = "file://xterm.h;beginline=3;endline=31;md5=f02ab9ebda87b770ecf711dbb3784a33"
 
-PR .= ".1"
+PR .= ".2"
 
 SRC_URI = "http://invisible-mirror.net/archives/${BPN}/${BP}.tgz \
            file://CVE-2021-27135-p1.patch \
 	   file://CVE-2021-27135-p2.patch \
+           file://0001-CVE-2022-24130.patch \
           "
 
 SRC_URI[md5sum] = "9a6db7974aa4ccbb50eabebf72618467"
