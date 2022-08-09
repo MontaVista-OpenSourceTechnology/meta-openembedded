@@ -24,12 +24,14 @@ SRC_URI[sha256sum] = "be3aaeb5f468a49f523f16736ccff7d82af2b4b303292ba3d052b5b28f
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/python-lxml:"
 
-PR .= ".2"
+PR .= ".3"
 
 SRC_URI += " \
     file://CVE-2018-19787.patch \
     file://CVE-2020-27783_p1.patch \
     file://CVE-2020-27783_p2.patch \
+    file://0001-CVE-2021-43818_1.patch \
+    file://0001-CVE-2021-43818_2.patch \
 "
 
 DISTUTILS_BUILD_ARGS += " \
