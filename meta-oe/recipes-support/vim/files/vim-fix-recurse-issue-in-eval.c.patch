@@ -1,0 +1,26 @@
+From f23dd52d3e9cf388f2ef301ce3bd612b19f5bb64 Mon Sep 17 00:00:00 2001
+From: Shubham Kulkarni <skulkarni@mvista.com>
+Date: Fri, 16 Sep 2022 14:54:07 +0000
+Subject: [PATCH] Corrected the CVE fix by adding the missing line
+
+Upstream-Status: Backport
+CVE: CVE-2022-0351
+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+---
+ src/eval.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/eval.c b/src/eval.c
+index d04151f..25c1d80 100644
+--- a/src/eval.c
++++ b/src/eval.c
+@@ -4441,6 +4441,7 @@ eval7(
+	}
+     }
+
++    --recurse;
+     return ret;
+ }
+
+--
+2.7.4
