@@ -11,7 +11,7 @@ SECTION = "net"
 
 DEPENDS = "libpcre zlib openssl"
 
-PR .= ".4"
+PR .= ".5"
 
 SRC_URI = " \
     http://nginx.org/download/nginx-${PV}.tar.gz \
@@ -30,6 +30,7 @@ SRC_URI = " \
     file://CVE-2021-23017-2.patch \
     file://CVE-2017-20005_p1.patch \
     file://CVE-2017-20005_p2.patch \
+    file://CVE-2022-41741-CVE-2022-41742.patch \
 "
 
 inherit update-rc.d useradd systemd
