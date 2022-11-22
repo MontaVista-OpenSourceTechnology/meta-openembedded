@@ -6,55 +6,27 @@ DEPENDS = "libtool-native apache2-native openssl expat pcre apr apr-util"
 SECTION = "net"
 LICENSE = "Apache-2.0"
 
-PR = "r16"
 SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
-           file://server-makefile.patch \
-           file://httpd-2.4.1-corelimit.patch \
-           file://httpd-2.4.4-export.patch \
-           file://httpd-2.4.1-selinux.patch \
-           file://apache-configure_perlbin.patch \
-           file://replace-lynx-to-curl-in-apachectl-script.patch \
-           file://apache-ssl-ltmain-rpath.patch \
-           file://httpd-2.4.3-fix-race-issue-of-dir-install.patch \
-           file://0001-configure-use-pkg-config-for-PCRE-detection.patch \
-           file://configure-allow-to-disable-selinux-support.patch \
-           file://init \
-           file://apache2-volatile.conf \
-           file://apache2.service \
-           file://volatiles.04_apache2 \
-           file://CVE-2018-1333.patch \
-           file://CVE-2018-11763.patch \
-           file://CVE-2019-0217-P1.patch \
-           file://CVE-2019-0217-P2.patch \
-           file://CVE-2019-0211.patch \
-           file://CVE-2019-0196.patch \
-           file://CVE-2018-17199.patch \
-           file://CVE-2019-0220.patch \
-           file://CVE-2018-17189_p1.patch \
-           file://CVE-2018-17189_p2.patch \
-           file://CVE-2020-9490.patch \
-           file://CVE-2021-26691.patch \
-           file://CVE-2021-40438-pre1.patch \
-           file://CVE-2021-40438.patch \
-           file://CVE-2021-40438-2.patch \
-           file://CVE-2021-40438-3.patch \
-           file://0001-CVE-2021-34798.patch \
-	   file://CVE-2020-35452.patch \
-	   file://CVE-2021-26690.patch \
-	   file://CVE-2021-30641.patch \
-	   file://CVE-2021-31618.patch \
-	   file://0001-CVE-2020-13950.patch \
-           file://0001-CVE-2021-44790.patch \
-	   file://0001-CVE-2022-22720.patch \
-	   file://0001-CVE-2022-22721.patch \
-	   file://CVE-2022-23943-1.patch \
-	   file://CVE-2022-23943-2.patch \
-	   file://CVE-2022-31813.patch \
-           "
+        file://0001-configure-use-pkg-config-for-PCRE-detection.patch \
+        file://0002-apache2-bump-up-the-core-size-limit-if-CoreDumpDirec.patch \
+        file://0003-apache2-do-not-export-apr-apr-util-symbols-when-usin.patch \
+        file://0004-apache2-log-the-SELinux-context-at-startup.patch \
+        file://0005-replace-lynx-to-curl-in-apachectl-script.patch \
+        file://0006-apache2-fix-the-race-issue-of-parallel-installation.patch \
+        file://0007-apache2-allow-to-disable-selinux-support.patch \
+        file://0008-Fix-perl-install-directory-to-usr-bin.patch \
+        file://0009-support-apxs.in-force-destdir-to-be-empty-string.patch \
+        file://0001-make_exports.awk-not-expose-the-path.patch \
+        file://0010-apache2-do-not-use-relative-path-for-gen_test_char.patch \
+        file://init \
+        file://apache2-volatile.conf \
+        file://apache2.service \
+        file://volatiles.04_apache2 \
+        "
 
-LIC_FILES_CHKSUM = "file://LICENSE;md5=dbff5a2b542fa58854455bf1a0b94b83"
-SRC_URI[md5sum] = "97b6bbfa83c866dbe20ef317e3afd108"
-SRC_URI[sha256sum] = "71fcc128238a690515bd8174d5330a5309161ef314a326ae45c7c15ed139c13a"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=bddeddfac80b2c9a882241d008bb41c3"
+SRC_URI[md5sum] = "861b43073ab416d689f1fc4dfa087711"
+SRC_URI[sha256sum] = "eb397feeefccaf254f8d45de3768d9d68e8e73851c49afd5b7176d1ecf80c340"
 
 S = "${WORKDIR}/httpd-${PV}"
 
