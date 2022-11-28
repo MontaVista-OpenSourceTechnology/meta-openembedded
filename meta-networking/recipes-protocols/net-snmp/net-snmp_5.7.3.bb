@@ -34,11 +34,12 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/net-snmp/net-snmp-${PV}.zip \
            file://net-snmp-fix-for-disable-des.patch \
            file://0001-CVE-2018-18066-Varbind-Null-pointer-exceptions.patch \
            file://CVE-2020-15862.patch \
+           file://CVE-2020-15861.patch \
            "
 SRC_URI[md5sum] = "9f682bd70c717efdd9f15b686d07baee"
 SRC_URI[sha256sum] = "e8dfc79b6539b71a6ff335746ce63d2da2239062ad41872fff4354cafed07a3e"
 
-PR="r1.1"
+PR="r1.2"
 
 inherit autotools-brokensep update-rc.d siteinfo systemd pkgconfig perlnative
 
