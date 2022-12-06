@@ -14,8 +14,9 @@ SRC_URI = "ftp://ftp.proftpd.org/distrib/source/${BPN}-${PV}.tar.gz \
            file://proftpd.service \
            file://CVE-2019-12815.patch \
 	   file://CVE-2019-18217.patch \
+           file://CVE-2021-46854.patch \
            "
-PR .= ".2"
+PR .= ".3"
 
 iSRC_URI[md5sum] = "13270911c42aac842435f18205546a1b"
 SRC_URI[sha256sum] = "91ef74b143495d5ff97c4d4770c6804072a8c8eb1ad1ecc8cc541b40e152ecaf"
