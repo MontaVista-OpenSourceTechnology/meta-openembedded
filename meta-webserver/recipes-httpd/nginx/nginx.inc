@@ -31,6 +31,7 @@ SRC_URI = " \
     file://CVE-2017-20005_p1.patch \
     file://CVE-2017-20005_p2.patch \
     file://CVE-2022-41741-CVE-2022-41742.patch \
+    file://CVE-2021-3618.patch \
 "
 
 inherit update-rc.d useradd systemd
