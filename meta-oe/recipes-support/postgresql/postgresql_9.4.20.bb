@@ -2,12 +2,13 @@ require postgresql.inc
 
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=6dc95e63aa4d72502ff8193dfe2ddd38"
 
-PR .= ".2"
+PR .= ".3"
 
 SRC_URI += "\
     file://remove.autoconf.version.check.patch \
     file://not-check-libperl.patch \
     file://0001-CVE-2021-23214.patch \
+    file://CVE-2021-23222.patch \
 "
 
 do_compile_prepend_libc-musl() {
