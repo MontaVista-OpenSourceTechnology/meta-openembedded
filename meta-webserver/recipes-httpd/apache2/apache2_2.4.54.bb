@@ -18,11 +18,15 @@ SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
         file://0009-support-apxs.in-force-destdir-to-be-empty-string.patch \
         file://0001-make_exports.awk-not-expose-the-path.patch \
         file://0010-apache2-do-not-use-relative-path-for-gen_test_char.patch \
+        file://CVE-2022-36760.patch \
+        file://CVE-2022-37436.patch \
         file://init \
         file://apache2-volatile.conf \
         file://apache2.service \
         file://volatiles.04_apache2 \
         "
+
+PR = "r1"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=bddeddfac80b2c9a882241d008bb41c3"
 SRC_URI[md5sum] = "861b43073ab416d689f1fc4dfa087711"
