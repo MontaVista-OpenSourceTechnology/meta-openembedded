@@ -12,6 +12,8 @@ ${SAMBA_MIRROR}    http://mirror.internode.on.net/pub/samba \n \
 ${SAMBA_MIRROR}    http://www.mirrorservice.org/sites/ftp.samba.org \n \
 "
 
+PR .= ".1"
+
 SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://16-do-not-check-xsltproc-manpages.patch \
            file://20-do-not-import-target-module-while-cross-compile.patch \
@@ -21,6 +23,17 @@ SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://netdb_defines.patch \
            file://glibc_only.patch \
            file://volatiles.03_samba \
+           file://CVE-2022-3437-1.patch \
+           file://CVE-2022-3437-2.patch \
+           file://CVE-2022-3437-3.patch \
+           file://CVE-2022-3437-4.patch \
+           file://CVE-2022-3437-5.patch \
+           file://CVE-2022-3437-6.patch \
+           file://CVE-2022-3437-7.patch \
+           file://CVE-2022-3437-8.patch \
+           file://CVE-2022-3437-9.patch \
+           file://CVE-2022-3437-10.patch \
+           file://CVE-2022-3437-11.patch \
           "
 SRC_URI_append_libc-musl = " \
            file://samba-4.2.7-pam.patch \
