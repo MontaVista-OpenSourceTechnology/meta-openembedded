@@ -21,6 +21,7 @@ LICENSE_modules/freebsd/vmxnet = "GPL-2.0"
 LICENSE_modules/linux = "GPL-2.0"
 LICENSE_modules/solaris = "CDDL-1.0"
 
+PR .= "1"
 SRC_URI = "git://github.com/vmware/open-vm-tools.git;protocol=https \
            file://tools.conf \
            file://vmtoolsd.service \
@@ -35,6 +36,7 @@ SRC_URI = "git://github.com/vmware/open-vm-tools.git;protocol=https \
            file://0007-Use-configure-to-test-for-feature-instead-of-platfor.patch \
            file://0008-use-posix-strerror_r-unless-gnu.patch \
            file://0011-Use-configure-test-for-sys-stat.h-include.patch \
+           file://CVE-2022-31676.patch \
            "
 SRC_URI_append_libc-musl = "\
            file://0009-Add-support-for-building-with-system-libtirpc.patch \
