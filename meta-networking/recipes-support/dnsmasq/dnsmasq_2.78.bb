@@ -1,6 +1,6 @@
 require dnsmasq.inc
 
-PR .= ".6"
+PR .= ".7"
 
 SRC_URI += "\
     file://lua.patch \
@@ -13,6 +13,7 @@ SRC_URI += "\
     file://0001-CVE-2020-25686_p2.patch \
     file://0001-CVE-2021-3448.patch \
     file://0001-CVE-2022-0934.patch \
+    file://CVE-2023-28450.patch \
 "
 
 SRC_URI[dnsmasq-2.78.md5sum] = "3bb97f264c73853f802bf70610150788"
