@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=51d9635e646fb75e1b74c074f788e973 \
                     file://COPYING.LESSER;md5=cb7903f1e5c39ae838209e130dca270a \
                     file://COPYING.ASL20;md5=052f8a09206615ab07326ff8ce2d9d32\
 "
+PR .= ".1"
 
 SRC_URI = "http://www.rsyslog.com/download/files/download/rsyslog/${BPN}-${PV}.tar.gz \
            file://initscript \
@@ -23,6 +24,7 @@ SRC_URI = "http://www.rsyslog.com/download/files/download/rsyslog/${BPN}-${PV}.t
            file://rsyslog.logrotate \
            file://use-pkgconfig-to-check-libgcrypt.patch \
            file://run-ptest \
+           file://0001-queue-Add-NULL-check-in-qDeqLinkedList.patch \
 "
 
 SRC_URI_append_libc-musl = " \
