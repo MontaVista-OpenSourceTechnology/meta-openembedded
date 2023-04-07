@@ -25,6 +25,7 @@ SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
         file://apache2.service \
         file://volatiles.04_apache2 \
         file://CVE-2023-25690.patch \
+        file://CVE-2023-27522.patch \
         "
 
 PR = "r1"
