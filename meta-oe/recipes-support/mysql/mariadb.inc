@@ -17,6 +17,7 @@ SRC_URI = "https://downloads.mariadb.org/interstitial/${BP}/source/${BP}.tar.gz 
            file://fix-a-building-failure.patch \
            file://change-cc-to-cc-version.patch \
            file://0001-disable-ucontext-on-musl.patch \
+           file://CVE-2022-31624.patch \
           "
 
 SRC_URI[md5sum] = "342a5b3c9895280d1ef512fbef6cb60e"
