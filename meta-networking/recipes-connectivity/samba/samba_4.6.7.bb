@@ -12,7 +12,7 @@ ${SAMBA_MIRROR}    http://mirror.internode.on.net/pub/samba \n \
 ${SAMBA_MIRROR}    http://www.mirrorservice.org/sites/ftp.samba.org \n \
 "
 
-PR .= ".2"
+PR .= ".3"
 
 SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://16-do-not-check-xsltproc-manpages.patch \
@@ -36,6 +36,7 @@ SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://CVE-2022-3437-11.patch \
            file://CVE-2022-45141-1.patch \
            file://CVE-2022-45141-2.patch \
+           file://CVE-2023-0922.patch \
           "
 SRC_URI_append_libc-musl = " \
            file://samba-4.2.7-pam.patch \
