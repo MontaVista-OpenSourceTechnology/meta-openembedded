@@ -16,7 +16,7 @@ SECTION = "libs"
 
 LDAP_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
 
-PR .= ".6"
+PR .= ".7"
 SRC_URI = "ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/${BP}.tgz \
     file://openldap-m4-pthread.patch \
     file://kill-icu.patch \
@@ -50,6 +50,8 @@ SRC_URI = "ftp://ftp.openldap.org/pub/OpenLDAP/openldap-release/${BP}.tgz \
     file://CVE-2020-25709.patch \
     file://CVE-2020-25710.patch \
     file://0001-CVE-2022-29155.patch \
+    file://CVE-2023-2953-1.patch \
+    file://CVE-2023-2953-2.patch \
 "
 
 SRC_URI[md5sum] = "00ff8301277cdfd0af728a6927042a13"
