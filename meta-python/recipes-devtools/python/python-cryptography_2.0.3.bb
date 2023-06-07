@@ -1,11 +1,12 @@
 inherit pypi setuptools
 require python-cryptography.inc
 
-PR .= ".1"
+PR .= ".2"
 
 SRC_URI += " \
     file://run-ptest \
     file://CVE-2020-25659.patch \
+    file://CVE-2023-23931.patch \
 "
 
 DEPENDS += " \
