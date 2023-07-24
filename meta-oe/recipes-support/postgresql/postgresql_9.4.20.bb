@@ -10,6 +10,7 @@ SRC_URI += "\
     file://0001-CVE-2021-23214.patch \
     file://CVE-2021-23222.patch \
     file://CVE-2019-10208.patch \
+    file://CVE-2023-2454.patch \
 "
 
 do_compile_prepend_libc-musl() {
