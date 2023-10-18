@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=f4b026880834eb01c035c5e5cb47ccac"
 SRCREV = "3be1924221e1326df520f8498d704a5c4c8d0cce"
 PV = "1.13.0+gitr${SRCPV}"
 
-PR .= ".3"
+PR .= ".4"
 
 SRC_URI = "\
     git://github.com/c-ares/c-ares.git \
@@ -16,6 +16,7 @@ SRC_URI = "\
     file://CVE-2022-4904.patch \
     file://CVE-2023-32067.patch \
     file://CVE-2023-31130.patch \
+    file://CVE-2020-22217.patch \
 "
 
 S = "${WORKDIR}/git"
