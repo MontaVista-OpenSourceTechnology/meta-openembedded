@@ -13,8 +13,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
 
 inherit update-alternatives
 
+PR .= ".1"
+
 SRC_URI = "${SOURCEFORGE_MIRROR}/traceroute/traceroute/${BP}/${BP}.tar.gz \
            file://filter-out-the-patches-from-subdirs.patch \
+           file://CVE-2023-46316.patch \
 "
 
 SRC_URI[md5sum] = "84d329d67abc3fb83fc8cb12aeaddaba"
