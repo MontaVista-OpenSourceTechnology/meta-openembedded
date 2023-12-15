@@ -7,13 +7,14 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 DEPENDS = "gmp openssl flex-native flex bison-native"
 
-PR .= "3"
+PR .= "4"
 SRC_URI = "http://download.strongswan.org/strongswan-${PV}.tar.bz2 \
            file://fix-funtion-parameter.patch \
            file://0001-memory.h-Include-stdint.h-for-uintptr_t.patch \
            file://0001-CVE-2021-41991.patch \
            file://0001-CVE-2021-45079.patch \
            file://CVE-2022-40617.patch \
+           file://CVE-2023-41913.patch \
            "
 
 SRC_URI[md5sum] = "4afffe3c219bb2e04f09510905af836b"
