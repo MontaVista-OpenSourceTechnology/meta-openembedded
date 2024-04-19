@@ -36,5 +36,5 @@ index f58620f..da1521b 100644
  if test $ac_cv_func_gettid = no; then
    # On Linux before glibc 2.30, gettid() is only usable via syscall()
 -- 
-2.25.1
+2.40.0
 
