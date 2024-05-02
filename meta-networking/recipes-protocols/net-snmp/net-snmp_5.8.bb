@@ -37,6 +37,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/net-snmp/net-snmp-${PV}.tar.gz \
            file://CVE-2020-15862.patch \
 	   file://0001-snmpd-Restore-SNMPD_CALLBACK_SEND_TRAP-12-behavior.patch \
            file://CVE-2022-44792-CVE-2022-44793.patch \
+           file://CVE-2022-24805_06_07_08_09_10-1.patch \
+           file://CVE-2022-24805_06_07_08_09_10-2.patch \
            "
 SRC_URI[md5sum] = "63bfc65fbb86cdb616598df1aff6458a"
 SRC_URI[sha256sum] = "b2fc3500840ebe532734c4786b0da4ef0a5f67e51ef4c86b3345d697e4976adf"
