@@ -36,11 +36,13 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/net-snmp/net-snmp-${PV}.zip \
            file://CVE-2020-15862.patch \
            file://CVE-2020-15861.patch \
            file://CVE-2022-44792-CVE-2022-44793.patch \
+           file://CVE-2022-24805-24806-24807-24808-24809-24810-p1.patch \
+           file://CVE-2022-24805-24806-24807-24808-24809-24810-p2.patch \
            "
 SRC_URI[md5sum] = "9f682bd70c717efdd9f15b686d07baee"
 SRC_URI[sha256sum] = "e8dfc79b6539b71a6ff335746ce63d2da2239062ad41872fff4354cafed07a3e"
 
-PR="r1.3"
+PR="r1.4"
 
 inherit autotools-brokensep update-rc.d siteinfo systemd pkgconfig perlnative
 
