@@ -9,7 +9,9 @@ SRC_URI = "http://invisible-mirror.net/archives/${BPN}/${BP}.tgz \
            file://CVE-2021-27135.patch \
            file://CVE-2022-24130.patch \
            file://CVE-2022-45063.patch \
+           file://CVE-2023-40359.patch \
           "
+PR .= ".1"
 SRC_URI[md5sum] = "247c30ebfa44623f3a2d100e0cae5c7f"
 SRC_URI[sha256sum] = "e521d3ee9def61f5d5c911afc74dd5c3a56ce147c7071c74023ea24cac9bb768"
 PACKAGECONFIG ?= ""
