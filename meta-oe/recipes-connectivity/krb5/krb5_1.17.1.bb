@@ -33,6 +33,8 @@ SRC_URI = "http://web.mit.edu/kerberos/dist/${BPN}/${SHRT_VER}/${BP}.tar.gz \
            file://CVE-2021-36222.patch \
            file://CVE-2022-42898.patch;striplevel=2 \
            file://CVE-2021-37750.patch;striplevel=2 \
+           file://CVE-2024-37370_37371-pre1.patch;striplevel=2 \
+           file://CVE-2024-37370_37371.patch;striplevel=2 \
 "
 SRC_URI[md5sum] = "417d654c72526ac51466e7fe84608878"
 SRC_URI[sha256sum] = "3706d7ec2eaa773e0e32d3a87bf742ebaecae7d064e190443a3acddfd8afb181"
