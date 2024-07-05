@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ae11c61b04b2917be39b11f78d71519a"
 SRC_URI = " \
     ${SOURCEFORGE_MIRROR}/giflib/${BP}.tar.bz2 \
     file://CVE-2019-15133.patch \
+    file://CVE-2020-23922.patch \
 "
 
 CVE_PRODUCT = "giflib_project:giflib"
