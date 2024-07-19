@@ -11,7 +11,7 @@ MIRRORS += "\
 ${SAMBA_MIRROR}    http://mirror.internode.on.net/pub/samba \n \
 ${SAMBA_MIRROR}    http://www.mirrorservice.org/sites/ftp.samba.org \n \
 "
-PR .= ".1"
+PR .= ".2"
 SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://smb.conf \
            file://16-do-not-check-xsltproc-manpages.patch \
@@ -32,6 +32,7 @@ SRC_URI = "${SAMBA_MIRROR}/stable/samba-${PV}.tar.gz \
            file://CVE-2020-14383.patch \
            file://CVE-2023-42669.patch \
            file://CVE-2023-4091.patch \
+           file://CVE-2023-4154.patch \
            "
 SRC_URI_append_libc-musl = " \
            file://samba-pam.patch \
