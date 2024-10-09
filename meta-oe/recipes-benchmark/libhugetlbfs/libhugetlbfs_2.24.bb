@@ -72,6 +72,8 @@ do_install() {
         -e 's|${RECIPE_SYSROOT_NATIVE}||g' \
         -e 's|${RECIPE_SYSROOT}||g' \
         `find ${D}${libdir}/libhugetlbfs/tests -name dummy.ldscript`
+
+    sed -i -e 's#${S}##g' ${D}${libdir}/libhugetlbfs/tests/obj64/dummy.ldscript
 }
 
 PACKAGES =+ "${PN}-tests "
