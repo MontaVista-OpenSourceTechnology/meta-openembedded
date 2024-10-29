@@ -46,8 +46,10 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
            file://0001-Bug-1812671-build-failure-while-implicitly-casting-S.patch;patchdir=nss \
            file://0001-Bug-1826650-cmd-ecperf-fix-dangling-pointer-warning-.patch;patchdir=nss \
            file://CVE-2023-4421.patch \
+           file://CVE-2024-6609.patch \
            "
 
+PR .= ".1"
 SRC_URI[md5sum] = "6acaf1ddff69306ae30a908881c6f233"
 SRC_URI[sha256sum] = "085c5eaceef040eddea639e2e068e70f0e368f840327a678ef74ae3d6c15ca78"
 
