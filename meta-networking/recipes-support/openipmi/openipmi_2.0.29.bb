@@ -31,6 +31,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/openipmi/OpenIPMI-${PV}.tar.gz \
            file://include_sys_types.patch \
            file://openipmi-helper \
            file://ipmi.service \
+           file://CVE-2024-42934.patch \
            "
 
 S = "${WORKDIR}/OpenIPMI-${PV}"
