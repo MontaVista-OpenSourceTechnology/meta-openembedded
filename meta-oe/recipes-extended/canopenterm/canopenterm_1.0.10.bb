@@ -15,7 +15,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=10e84ea70e8c3a1fbc462f5424806474"
 
 DEPENDS = "cjson libinih libsdl2 lua libsocketcan pocketpy"
 
-SRC_URI = "git://github.com/CANopenTerm/CANopenTerm.git;protocol=https;branch=main"
+SRC_URI = "git://github.com/CANopenTerm/CANopenTerm.git;protocol=https;branch=main \
+           file://0001-fix-number-of-arguments-check-in-API-function.patch \
+           "
 
 SRCREV  = "e0760b2e9657907e691be4df384ca7617109635d"
 

@@ -1,0 +1,23 @@
+From 02e8b19d4090809deee11bf6801c0444c38fe4d2 Mon Sep 17 00:00:00 2001
+From: Michael Fitzmayer <mail@michael-fitzmayer.de>
+Date: Mon, 9 Dec 2024 22:30:03 +0100
+Subject: [PATCH] canopenterm: fix number of arguments check in API function
+
+Signed-off-by: Michael Fitzmayer <mail@michael-fitzmayer.de>
+---
+ src/api/python_test_report.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/api/python_test_report.c b/src/api/python_test_report.c
+index ff7b31e..1b1fc4a 100644
+--- a/src/api/python_test_report.c
++++ b/src/api/python_test_report.c
+@@ -69,7 +69,7 @@ bool py_test_eds_file(int argc, py_Ref argv)
+     (void)argc;
+     (void)argv;
+ 
+-    PY_CHECK_ARGC(2);
++    PY_CHECK_ARGC(3);
+ 
+     node_id   = py_toint(py_arg(0));
+     file_name = py_tostr(py_arg(1));
