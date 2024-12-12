@@ -8,4 +8,6 @@ SRC_URI[sha256sum] = "f11c2a6dd1d3515736f0324857957db2de98be862461b5a542a3ac6188
 SRC_URI += "file://CVE-2019-20372.patch \
             file://CVE-2022-41741-CVE-2022-41742.patch \
             file://0001-HTTP-2-per-iteration-stream-handling-limit.patch \
+            file://CVE-2024-7347-1.patch \
+            file://CVE-2024-7347-2.patch \
            "
