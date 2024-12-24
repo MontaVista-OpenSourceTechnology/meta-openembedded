@@ -11,13 +11,23 @@ DEPENDS_class-native = "zlib-native libxml2-native"
 
 PHP_MAJOR_VERSION = "${@d.getVar('PV').split('.')[0]}"
 
+PR .= ".1"
 SRC_URI = "http://php.net/distributions/php-${PV}.tar.bz2 \
            file://0001-php-don-t-use-broken-wrapper-for-mkdir.patch \
            file://debian-php-fixheader.patch \
            file://0001-configure.ac-don-t-include-build-libtool.m4.patch \
            file://0001-php.m4-don-t-unset-cache-variables.patch \
+           file://CVE-2023-3247-1.patch \
+           file://CVE-2023-3247-2.patch \
            file://CVE-2023-3824.patch \
            file://CVE-2022-4900.patch \
+           file://CVE-2023-3823.patch \
+           file://CVE-2024-2756.patch \
+           file://CVE-2024-5458.patch \
+           file://CVE-2024-11233.patch \
+           file://CVE-2024-11234.patch \
+           file://CVE-2024-11236-1.patch \
+           file://CVE-2024-11236-2.patch \
           "
 
 SRC_URI_append_class-target = " \
@@ -32,8 +42,6 @@ SRC_URI_append_class-target = " \
             file://phar-makefile.patch \
             file://0001-opcache-config.m4-enable-opcache.patch \
             file://xfail_two_bug_tests.patch \
-            file://CVE-2023-3247-1.patch \
-            file://CVE-2023-3247-2.patch \
           "
 
 S = "${WORKDIR}/php-${PV}"
