@@ -11,7 +11,7 @@ DEPENDS_class-native = "zlib-native libxml2-native"
 
 PHP_MAJOR_VERSION = "${@d.getVar('PV').split('.')[0]}"
 
-PR .= ".1"
+PR .= ".2"
 SRC_URI = "http://php.net/distributions/php-${PV}.tar.bz2 \
            file://0001-php-don-t-use-broken-wrapper-for-mkdir.patch \
            file://debian-php-fixheader.patch \
@@ -28,6 +28,8 @@ SRC_URI = "http://php.net/distributions/php-${PV}.tar.bz2 \
            file://CVE-2024-11234.patch \
            file://CVE-2024-11236-1.patch \
            file://CVE-2024-11236-2.patch \
+           file://CVE-2024-8925.patch \
+           file://CVE-2024-8927.patch \
           "
 
 SRC_URI_append_class-target = " \
