@@ -16,15 +16,6 @@ diff --git a/snmplib/parse.c b/snmplib/parse.c
 index b3e2f3ae5c..71bdf75ff8 100644
 --- a/snmplib/parse.c
 +++ b/snmplib/parse.c
-@@ -28,7 +28,7 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
- SOFTWARE.
- ******************************************************************/
- /*
-- * Copyright � 2003 Sun Microsystems, Inc. All rights reserved.
-+ * Copyright © 2003 Sun Microsystems, Inc. All rights reserved.
-  * Use is subject to license terms specified in the COPYING file
-  * distributed with the Net-SNMP package.
-  */
 @@ -4215,7 +4215,8 @@ unload_all_mibs(void)
          if (ptc->description)
              free(ptc->description);
