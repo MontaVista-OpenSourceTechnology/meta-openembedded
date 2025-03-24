@@ -8,6 +8,7 @@ DEPENDS = "pcre expat glib-2.0 glib-2.0-native libgcrypt libgpg-error libxml2 bi
 
 DEPENDS_append_class-target = " wireshark-native chrpath-replacement-native "
 
+PR = "r1"
 SRC_URI = "https://1.eu.dl.wireshark.org/src/all-versions/wireshark-${PV}.tar.xz \
            file://fix_lemon_path.patch \
            file://CVE-2023-2855.patch \
@@ -28,6 +29,7 @@ SRC_URI = "https://1.eu.dl.wireshark.org/src/all-versions/wireshark-${PV}.tar.xz
            file://CVE-2023-6175.patch \
 	   file://CVE-2024-0209-pre.patch \
 	   file://CVE-2024-0209.patch \
+	   file://CVE-2024-8645.patch \
            "
 UPSTREAM_CHECK_URI = "https://1.as.dl.wireshark.org/src"
 
