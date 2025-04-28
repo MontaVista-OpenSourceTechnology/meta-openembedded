@@ -19,7 +19,7 @@ DEPENDS = "bison-native ncurses util-linux e2fsprogs e2fsprogs-native openssl"
 
 inherit autotools-brokensep binconfig perlnative systemd update-rc.d
 
-PR .= ".2"
+PR .= ".3"
 SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
 SRC_URI = "http://web.mit.edu/kerberos/dist/${BPN}/${SHRT_VER}/${BP}.tar.gz \
            file://0001-aclocal-Add-parameter-to-disable-keyutils-detection.patch \
@@ -38,6 +38,7 @@ SRC_URI = "http://web.mit.edu/kerberos/dist/${BPN}/${SHRT_VER}/${BP}.tar.gz \
            file://CVE-2024-37370_37371.patch;striplevel=2 \
            file://CVE-2024-26458_CVE-2024-26461.patch;striplevel=2 \
            file://CVE-2020-28196.patch;striplevel=2 \
+           file://CVE-2025-24528.patch;striplevel=2 \
 "
 SRC_URI[md5sum] = "417d654c72526ac51466e7fe84608878"
 SRC_URI[sha256sum] = "3706d7ec2eaa773e0e32d3a87bf742ebaecae7d064e190443a3acddfd8afb181"
