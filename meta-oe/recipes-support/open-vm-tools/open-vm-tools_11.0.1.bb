@@ -45,8 +45,10 @@ SRC_URI = "git://github.com/vmware/open-vm-tools.git;protocol=https;branch=maste
     file://0001-hgfsmounter-Makefile.am-support-usrmerge.patch;patchdir=.. \
     file://0001-Properly-check-authorization-on-incoming-guestOps-re.patch;patchdir=.. \
     file://0001-Allow-only-X509-certs-to-verify-the-SAML-token-signa.patch;patchdir=.. \
+    file://CVE-2025-22247.patch;patchdir=.. \
 "
 
+PR .= ".1"
 SRCREV = "d3edfd142a81096f9f58aff17d84219b457f4987"
 
 S = "${WORKDIR}/git/open-vm-tools"
