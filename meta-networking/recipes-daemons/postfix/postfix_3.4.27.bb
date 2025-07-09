@@ -14,6 +14,8 @@ SRC_URI += "ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-${P
            file://icu-config.patch \
            file://0001-makedefs-add-lnsl-and-lresolv-to-SYSLIBS-by-default.patch \
            file://0001-fix-build-with-glibc-2.34.patch \
+           file://CVE-2023-51764.patch \
            "
+PR .= ".1"
 SRC_URI[sha256sum] = "5f71658546d9b65863249dec3a189d084ea0596e23dc4613c579ad3ae75b10d2"
 UPSTREAM_CHECK_REGEX = "postfix\-(?P<pver>3\.4(\.\d+)+).tar.gz"
