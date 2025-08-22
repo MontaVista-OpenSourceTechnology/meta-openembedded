@@ -4,7 +4,7 @@ SECTION = "libs"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b1becf0cfa3366e0f4d854d1d264f311"
 
-PR = "r2"
+PR = "r3"
 
 SRC_URI = "https://downloads.mariadb.org/interstitial/${BP}/source/${BP}.tar.gz \
            file://my.cnf \
@@ -21,6 +21,8 @@ SRC_URI = "https://downloads.mariadb.org/interstitial/${BP}/source/${BP}.tar.gz 
            file://CVE-2022-47015.patch \
            file://CVE-2023-22084.patch \
            file://CVE-2025-30722.patch \
+           file://CVE-2025-21490.patch \
+           file://CVE-2025-30693.patch \
           "
 
 SRC_URI[sha256sum] = "003fd23f3c6ee516176e1b62b0b43cdb6cdd3dcd4e30f855c1c5ab2baaf5a86c"
