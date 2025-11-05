@@ -13,7 +13,10 @@ SRC_URI = " \
     file://0001-Don-t-try-to-install-non-existing-Encodings-testsuit.patch \
     file://0001-riscv-Enable-double-operations-when-using-double-flo.patch \
     file://run-ptest \
+    file://CVE-2025-6375.patch \
    "
+PR .= ".1"
+
 SRCREV = "b95393dcc3640807838e8323b4e600e54d2e8116"
 
 UPSTREAM_CHECK_GITTAGREGEX = "poco-(?P<pver>\d+(\.\d+)+)"
