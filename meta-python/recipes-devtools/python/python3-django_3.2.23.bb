@@ -6,6 +6,7 @@ SRC_URI[sha256sum] = "82968f3640e29ef4a773af2c28448f5f7a08d001c6ac05b32d02aeee65
 RDEPENDS:${PN} += "\
     ${PYTHON_PN}-sqlparse \
 "
+SRC_URI += "file://CVE-2024-27351.patch"
 
 # Set DEFAULT_PREFERENCE so that the LTS version of django is built by
 # default. To build the 3.x branch, 
