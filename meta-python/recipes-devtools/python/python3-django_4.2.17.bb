@@ -7,6 +7,8 @@ RDEPENDS:${PN} += "\
     ${PYTHON_PN}-sqlparse \
 "
 
+SRC_URI += "file://CVE-2025-26699.patch"
+
 # Set DEFAULT_PREFERENCE so that the LTS version of django is built by
 # default. To build the 4.x branch, 
 # PREFERRED_VERSION_python3-django = "4.2.17" can be added to local.conf
