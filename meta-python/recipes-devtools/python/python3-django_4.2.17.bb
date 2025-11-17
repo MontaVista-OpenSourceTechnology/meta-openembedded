@@ -7,7 +7,10 @@ RDEPENDS:${PN} += "\
     ${PYTHON_PN}-sqlparse \
 "
 
-SRC_URI += "file://CVE-2025-26699.patch"
+SRC_URI += "\
+	file://CVE-2025-26699.patch \
+	file://CVE-2024-56374.patch \
+"
 
 # Set DEFAULT_PREFERENCE so that the LTS version of django is built by
 # default. To build the 4.x branch, 
