@@ -1,0 +1,469 @@
+From 09c99f415ce74cf05abe837d026fe0941ec147b5 Mon Sep 17 00:00:00 2001
+From: Bernie Harris <bernie.harris@alliedtelesis.co.nz>
+Date: Tue, 17 Jul 2018 18:44:21 +1200
+Subject: [PATCH] afsocket: Add ref-counted TLSVerifier struct
+
+When a TLS session is initiated, the afsocket module passes a
+reference to the AFInetDestDriver instance to the TLSSession
+structure to use as verification data. During config reload,
+afsocket_dd_save_connection() may be called to store the driver's
+LogWriter so that it will survive the config reload, and the
+driver's 'writer' field is set to NULL. The driver is freed
+without freeing the writer, thus the TLSSession still exists and
+has a dangling pointer to the driver. The afsocket module may
+then try to verify the session using the invalid data, which
+results in a crash.
+
+This patch adds a new struct, TLSVerifier, which stores the
+verification data for a TLSSession, and a pointer to a function
+for destroying the verification data. It also contains a
+reference counter that is incremented when it is passed to a
+TLSSession, and decremented when the TLSSession is destroyed.
+This ensures that the TLSVerifier is not destroyed until it is
+not referenced by any more sessions.
+
+It is not necessary to use the entire driver as verification data
+so the required info (TLSContext and hostname) is placed in a new
+struct, AFInetDestDriverTLSVerifyData, which is used by the
+TLSVerifier as verification data.
+
+Signed-off-by: Bernie Harris <bernie.harris@alliedtelesis.co.nz>
+
+Upstream-Status: Backport [https://github.com/syslog-ng/syslog-ng/commit/04df48df818bb702d17dc58cbcabef405b77de5e]
+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+---
+ lib/tlscontext.c                              | 63 ++++++++++++++++---
+ lib/tlscontext.h                              | 19 ++++--
+ lib/transport/transport-factory-tls.c         | 11 ++--
+ lib/transport/transport-factory-tls.h         |  7 +--
+ modules/afsocket/afinet-dest.c                | 44 +++++++++++--
+ modules/afsocket/afinet-source.c              |  2 +-
+ .../tests/test-transport-mapper-inet.c        | 10 +--
+ modules/afsocket/transport-mapper-inet.c      | 12 ++--
+ modules/afsocket/transport-mapper-inet.h      |  9 +--
+ 9 files changed, 127 insertions(+), 50 deletions(-)
+
+diff --git a/lib/tlscontext.c b/lib/tlscontext.c
+index f2c2cdd..d8e370d 100644
+--- a/lib/tlscontext.c
++++ b/lib/tlscontext.c
+@@ -250,8 +250,8 @@ tls_session_verify_callback(int ok, X509_STORE_CTX *ctx)
+ 
+       tls_log_certificate_validation_progress(ok, ctx);
+ 
+-      if (self->verify_func)
+-        return self->verify_func(ok, ctx, self->verify_data);
++      if (self->verifier && self->verifier->verify_func)
++        return self->verifier->verify_func(ok, ctx, self->verifier->verify_data);
+     }
+   return ok;
+ }
+@@ -273,12 +273,9 @@ tls_session_set_trusted_dn(TLSContext *self, GList *dn)
+ }
+ 
+ void
+-tls_session_set_verify(TLSSession *self, TLSSessionVerifyFunc verify_func, gpointer verify_data,
+-                       GDestroyNotify verify_destroy)
++tls_session_set_verifier(TLSSession *self, TLSVerifier *verifier)
+ {
+-  self->verify_func = verify_func;
+-  self->verify_data = verify_data;
+-  self->verify_data_destroy = verify_destroy;
++  self->verifier = verifier ? tls_verifier_ref(verifier) : NULL;
+ }
+ 
+ void
+@@ -312,7 +309,7 @@ tls_session_new(SSL *ssl, TLSContext *ctx)
+   self->ctx = tls_context_ref(ctx);
+ 
+   /* to set verify callback */
+-  tls_session_set_verify(self, NULL, NULL, NULL);
++  tls_session_set_verifier(self, NULL);
+ 
+   SSL_set_info_callback(ssl, tls_session_info_callback);
+ 
+@@ -323,8 +320,8 @@ void
+ tls_session_free(TLSSession *self)
+ {
+   tls_context_unref(self->ctx);
+-  if (self->verify_data && self->verify_data_destroy)
+-    self->verify_data_destroy(self->verify_data);
++  if (self->verifier)
++    tls_verifier_unref(self->verifier);
+   SSL_free(self->ssl);
+ 
+   g_free(self);
+@@ -804,6 +801,52 @@ tls_context_unref(TLSContext *self)
+     _tls_context_free(self);
+ }
+ 
++TLSVerifier *
++tls_verifier_new(TLSSessionVerifyFunc verify_func, gpointer verify_data,
++                 GDestroyNotify verify_data_destroy)
++{
++  TLSVerifier *self = g_new0(TLSVerifier, 1);
++
++  g_atomic_counter_set(&self->ref_cnt, 1);
++  self->verify_func = verify_func;
++  self->verify_data = verify_data;
++  self->verify_data_destroy = verify_data_destroy;
++  return self;
++}
++
++TLSVerifier *
++tls_verifier_ref(TLSVerifier *self)
++{
++  g_assert(!self || g_atomic_counter_get(&self->ref_cnt) > 0);
++
++  if (self)
++    g_atomic_counter_inc(&self->ref_cnt);
++
++  return self;
++}
++
++static void
++_tls_verifier_free(TLSVerifier *self)
++{
++  g_assert(self);
++
++  if (self)
++    {
++      if (self->verify_data && self->verify_data_destroy)
++        self->verify_data_destroy(self->verify_data);
++      g_free(self);
++    }
++}
++
++void
++tls_verifier_unref(TLSVerifier *self)
++{
++  g_assert(!self || g_atomic_counter_get(&self->ref_cnt));
++
++  if (self && (g_atomic_counter_dec_and_test(&self->ref_cnt)))
++    _tls_verifier_free(self);
++}
++
+ gboolean
+ tls_context_set_verify_mode_by_name(TLSContext *self, const gchar *mode_str)
+ {
+diff --git a/lib/tlscontext.h b/lib/tlscontext.h
+index 5102020..0c201d7 100644
+--- a/lib/tlscontext.h
++++ b/lib/tlscontext.h
+@@ -69,13 +69,19 @@ typedef struct _TLSContext TLSContext;
+ #define X509_MAX_O_LEN 64
+ #define X509_MAX_OU_LEN 32
+ 
+-typedef struct _TLSSession
++typedef struct _TLSVerifier
+ {
+-  SSL *ssl;
+-  TLSContext *ctx;
++  GAtomicCounter ref_cnt;
+   TLSSessionVerifyFunc verify_func;
+   gpointer verify_data;
+   GDestroyNotify verify_data_destroy;
++} TLSVerifier;
++
++typedef struct _TLSSession
++{
++  SSL *ssl;
++  TLSContext *ctx;
++  TLSVerifier *verifier;
+   struct
+   {
+     int found;
+@@ -85,8 +91,7 @@ typedef struct _TLSSession
+   } peer_info;
+ } TLSSession;
+ 
+-void tls_session_set_verify(TLSSession *self, TLSSessionVerifyFunc verify_func, gpointer verify_data,
+-                            GDestroyNotify verify_destroy);
++void tls_session_set_verifier(TLSSession *self, TLSVerifier *verifier);
+ void tls_session_free(TLSSession *self);
+ 
+ TLSContextSetupResult tls_context_setup_context(TLSContext *self);
+@@ -97,6 +102,10 @@ void tls_session_set_trusted_dn(TLSContext *self, GList *dns);
+ TLSContext *tls_context_new(TLSMode mode, const gchar *config_location);
+ TLSContext *tls_context_ref(TLSContext *self);
+ void tls_context_unref(TLSContext *self);
++TLSVerifier *tls_verifier_new(TLSSessionVerifyFunc verify_func, gpointer verify_data,
++                              GDestroyNotify verify_data_destroy);
++TLSVerifier *tls_verifier_ref(TLSVerifier *self);
++void tls_verifier_unref(TLSVerifier *self);
+ 
+ 
+ gboolean tls_context_set_verify_mode_by_name(TLSContext *self, const gchar *mode_str);
+diff --git a/lib/transport/transport-factory-tls.c b/lib/transport/transport-factory-tls.c
+index 0b1189a..896d923 100644
+--- a/lib/transport/transport-factory-tls.c
++++ b/lib/transport/transport-factory-tls.c
+@@ -51,7 +51,7 @@ _construct_transport(const TransportFactory *s, gint fd)
+ 
+   _tls_session_allow_compress(tls_session, self->allow_compress);
+ 
+-  tls_session_set_verify(tls_session, self->tls_verify_cb, self->tls_verify_data, NULL);
++  tls_session_set_verifier(tls_session, self->tls_verifier);
+ 
+   return log_transport_tls_new(tls_session, fd);
+ }
+@@ -75,18 +75,17 @@ _free(TransportFactory *s)
+ {
+   TransportFactoryTLS *self = (TransportFactoryTLS *)s;
+   tls_context_unref(self->tls_context);
++  if (self->tls_verifier)
++    tls_verifier_unref(self->tls_verifier);
+ }
+ 
+ TransportFactory *
+-transport_factory_tls_new(TLSContext *ctx,
+-                          TLSSessionVerifyFunc tls_verify_cb,
+-                          gpointer tls_verify_data)
++transport_factory_tls_new(TLSContext *ctx, TLSVerifier *tls_verifier)
+ {
+   TransportFactoryTLS *instance = g_new0(TransportFactoryTLS, 1);
+ 
+   instance->tls_context = tls_context_ref(ctx);
+-  instance->tls_verify_cb = tls_verify_cb;
+-  instance->tls_verify_data  = tls_verify_data;
++  instance->tls_verifier = tls_verifier ? tls_verifier_ref(tls_verifier) : NULL;
+ 
+   instance->super.id = transport_factory_tls_id();
+   instance->super.construct_transport = _construct_transport;
+diff --git a/lib/transport/transport-factory-tls.h b/lib/transport/transport-factory-tls.h
+index 4a2106e..e619dbc 100644
+--- a/lib/transport/transport-factory-tls.h
++++ b/lib/transport/transport-factory-tls.h
+@@ -34,14 +34,11 @@ struct _TransportFactoryTLS
+ {
+   TransportFactory super;
+   TLSContext *tls_context;
+-  TLSSessionVerifyFunc tls_verify_cb;
+-  gpointer tls_verify_data;
++  TLSVerifier *tls_verifier;
+   gboolean allow_compress;
+ };
+ 
+-TransportFactory *transport_factory_tls_new(TLSContext *ctx,
+-                                            TLSSessionVerifyFunc tls_verify_cb,
+-                                            gpointer tls_verify_data);
++TransportFactory *transport_factory_tls_new(TLSContext *ctx, TLSVerifier *tls_verifier);
+ 
+ void transport_factory_tls_enable_compression(TransportFactory *);
+ void transport_factory_tls_disable_compression(TransportFactory *);
+diff --git a/modules/afsocket/afinet-dest.c b/modules/afsocket/afinet-dest.c
+index d4267e4..2ed9819 100644
+--- a/modules/afsocket/afinet-dest.c
++++ b/modules/afsocket/afinet-dest.c
+@@ -50,6 +50,12 @@
+ #  define _GNU_SOURCE 1
+ #endif
+ 
++typedef struct _AFInetDestDriverTLSVerifyData
++{
++  TLSContext *tls_context;
++  gchar *hostname;
++} AFInetDestDriverTLSVerifyData;
++
+ void
+ afinet_dd_set_localip(LogDriver *s, gchar *ip)
+ {
+@@ -95,14 +101,13 @@ afinet_dd_set_spoof_source(LogDriver *s, gboolean enable)
+ static gint
+ afinet_dd_verify_callback(gint ok, X509_STORE_CTX *ctx, gpointer user_data)
+ {
+-  AFInetDestDriver *self G_GNUC_UNUSED = (AFInetDestDriver *) user_data;
+-  TransportMapperInet *transport_mapper_inet = (TransportMapperInet *) self->super.transport_mapper;
++  AFInetDestDriverTLSVerifyData *self G_GNUC_UNUSED = (AFInetDestDriverTLSVerifyData *) user_data;
+ 
+   X509 *current_cert = X509_STORE_CTX_get_current_cert(ctx);
+   X509 *cert = X509_STORE_CTX_get0_cert(ctx);
+ 
+   if (ok && current_cert == cert && self->hostname
+-      && (tls_context_get_verify_mode(transport_mapper_inet->tls_context) & TVM_TRUSTED))
++      && (tls_context_get_verify_mode(self->tls_context) & TVM_TRUSTED))
+     {
+       ok = tls_verify_certificate_name(cert, self->hostname);
+     }
+@@ -110,12 +115,41 @@ afinet_dd_verify_callback(gint ok, X509_STORE_CTX *ctx, gpointer user_data)
+   return ok;
+ }
+ 
++static AFInetDestDriverTLSVerifyData *
++afinet_dd_tls_verify_data_new(TLSContext *ctx, const gchar *hostname)
++{
++  AFInetDestDriverTLSVerifyData *self = g_new0(AFInetDestDriverTLSVerifyData, 1);
++
++  self->tls_context = tls_context_ref(ctx);
++  self->hostname = g_strdup(hostname);
++  return self;
++}
++
++static void
++afinet_dd_tls_verify_data_free(gpointer s)
++{
++  AFInetDestDriverTLSVerifyData *self = (AFInetDestDriverTLSVerifyData *)s;
++
++  g_assert(self);
++
++  if (self)
++    {
++      tls_context_unref(self->tls_context);
++      g_free(self->hostname);
++      g_free(self);
++    }
++}
++
+ void
+ afinet_dd_set_tls_context(LogDriver *s, TLSContext *tls_context)
+ {
+   AFInetDestDriver *self = (AFInetDestDriver *) s;
+-  transport_mapper_inet_set_tls_context((TransportMapperInet *) self->super.transport_mapper, tls_context,
+-                                        afinet_dd_verify_callback, self);
++  AFInetDestDriverTLSVerifyData *verify_data;
++  TLSVerifier *verifier;
++
++  verify_data = afinet_dd_tls_verify_data_new(tls_context, self->hostname);
++  verifier = tls_verifier_new(afinet_dd_verify_callback, verify_data, afinet_dd_tls_verify_data_free);
++  transport_mapper_inet_set_tls_context((TransportMapperInet *) self->super.transport_mapper, tls_context, verifier);
+ }
+ 
+ void
+diff --git a/modules/afsocket/afinet-source.c b/modules/afsocket/afinet-source.c
+index 31b2da3..bb6e6a5 100644
+--- a/modules/afsocket/afinet-source.c
++++ b/modules/afsocket/afinet-source.c
+@@ -59,7 +59,7 @@ afinet_sd_set_tls_context(LogDriver *s, TLSContext *tls_context)
+ {
+   AFInetSourceDriver *self = (AFInetSourceDriver *) s;
+ 
+-  transport_mapper_inet_set_tls_context((TransportMapperInet *) self->super.transport_mapper, tls_context, NULL, NULL);
++  transport_mapper_inet_set_tls_context((TransportMapperInet *) self->super.transport_mapper, tls_context, NULL);
+ }
+ 
+ static gboolean
+diff --git a/modules/afsocket/tests/test-transport-mapper-inet.c b/modules/afsocket/tests/test-transport-mapper-inet.c
+index d5e3bce..0fcaae9 100644
+--- a/modules/afsocket/tests/test-transport-mapper-inet.c
++++ b/modules/afsocket/tests/test-transport-mapper-inet.c
+@@ -189,7 +189,7 @@ test_udp_apply_transport_sets_defaults(void)
+ static void
+ test_udp_apply_fails_when_tls_context_is_set(void)
+ {
+-  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL, NULL);
++  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL);
+   assert_transport_mapper_apply_fails(transport_mapper, "udp");
+ }
+ 
+@@ -220,7 +220,7 @@ test_network_transport_udp_apply_transport_sets_defaults(void)
+ static void
+ test_network_transport_udp_apply_fails_when_tls_context_is_set(void)
+ {
+-  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL, NULL);
++  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL);
+   assert_transport_mapper_apply_fails(transport_mapper, "udp");
+ }
+ 
+@@ -245,7 +245,7 @@ test_network_transport_tls_apply_fails_without_tls_context(void)
+ static void
+ test_network_transport_tls_apply_transport_sets_defaults(void)
+ {
+-  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL, NULL);
++  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL);
+   assert_transport_mapper_apply(transport_mapper, "tls");
+   assert_transport_mapper_tcp_socket(transport_mapper);
+ 
+@@ -282,7 +282,7 @@ test_syslog_transport_udp_apply_transport_sets_defaults(void)
+ static void
+ test_syslog_transport_udp_apply_fails_when_tls_context_is_set(void)
+ {
+-  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL, NULL);
++  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL);
+   assert_transport_mapper_apply_fails(transport_mapper, "udp");
+ }
+ 
+@@ -307,7 +307,7 @@ test_syslog_transport_tls_apply_fails_without_tls_context(void)
+ static void
+ test_syslog_transport_tls_apply_transport_sets_defaults(void)
+ {
+-  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL, NULL);
++  transport_mapper_inet_set_tls_context((TransportMapperInet *) transport_mapper, create_dummy_tls_context(), NULL);
+   assert_transport_mapper_apply(transport_mapper, "tls");
+   assert_transport_mapper_tcp_socket(transport_mapper);
+ 
+diff --git a/modules/afsocket/transport-mapper-inet.c b/modules/afsocket/transport-mapper-inet.c
+index bd2eae8..73a4c94 100644
+--- a/modules/afsocket/transport-mapper-inet.c
++++ b/modules/afsocket/transport-mapper-inet.c
+@@ -89,9 +89,7 @@ transport_mapper_inet_apply_transport_method(TransportMapper *s, GlobalConfig *c
+ static LogTransport *
+ _construct_multitransport_with_tls_factory(TransportMapperInet *self, gint fd)
+ {
+-  TransportFactory *default_factory = transport_factory_tls_new(self->tls_context,
+-                                      self->tls_verify_callback,
+-                                      self->tls_verify_data);
++  TransportFactory *default_factory = transport_factory_tls_new(self->tls_context, self->tls_verifier);
+   return multitransport_new(default_factory, fd);
+ }
+ 
+@@ -105,7 +103,7 @@ _construct_tls_transport(TransportMapperInet *self, gint fd)
+   if (!tls_session)
+     return NULL;
+ 
+-  tls_session_set_verify(tls_session, self->tls_verify_callback, self->tls_verify_data, NULL);
++  tls_session_set_verifier(tls_session, self->tls_verifier);
+ 
+   return log_transport_tls_new(tls_session, fd);
+ }
+@@ -123,9 +121,7 @@ _construct_multitransport_with_plain_and_tls_factories(TransportMapperInet *self
+ {
+   LogTransport *transport = _construct_multitransport_with_plain_tcp_factory(self, fd);
+ 
+-  TransportFactory *tls_factory = transport_factory_tls_new(self->tls_context,
+-                                                            self->tls_verify_callback,
+-                                                            self->tls_verify_data);
++  TransportFactory *tls_factory = transport_factory_tls_new(self->tls_context, self->tls_verifier);
+   multitransport_add_factory((MultiTransport *)transport, tls_factory);
+ 
+   return transport;
+@@ -276,6 +272,8 @@ transport_mapper_inet_free_method(TransportMapper *s)
+       g_free(self->secret_store_cb_data);
+     }
+ 
++  if (self->tls_verifier)
++    tls_verifier_unref(self->tls_verifier);
+   if (self->tls_context)
+     tls_context_unref(self->tls_context);
+ 
+diff --git a/modules/afsocket/transport-mapper-inet.h b/modules/afsocket/transport-mapper-inet.h
+index 0f51970..8308c74 100644
+--- a/modules/afsocket/transport-mapper-inet.h
++++ b/modules/afsocket/transport-mapper-inet.h
+@@ -36,8 +36,7 @@ typedef struct _TransportMapperInet
+   gboolean allow_tls;
+   gboolean require_tls_when_has_tls_context;
+   TLSContext *tls_context;
+-  TLSSessionVerifyFunc tls_verify_callback;
+-  gpointer tls_verify_data;
++  TLSVerifier *tls_verifier;
+   gpointer secret_store_cb_data;
+ } TransportMapperInet;
+ 
+@@ -62,12 +61,10 @@ transport_mapper_inet_get_port_change_warning(TransportMapper *s)
+ }
+ 
+ static inline void
+-transport_mapper_inet_set_tls_context(TransportMapperInet *self, TLSContext *tls_context,
+-                                      TLSSessionVerifyFunc tls_verify_callback, gpointer tls_verify_data)
++transport_mapper_inet_set_tls_context(TransportMapperInet *self, TLSContext *tls_context, TLSVerifier *tls_verifier)
+ {
+   self->tls_context = tls_context;
+-  self->tls_verify_callback = tls_verify_callback;
+-  self->tls_verify_data = tls_verify_data;
++  self->tls_verifier = tls_verifier;
+ }
+ 
+ void transport_mapper_inet_init_instance(TransportMapperInet *self, const gchar *transport);
+-- 
+2.18.2
+

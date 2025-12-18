@@ -1,6 +1,6 @@
 require syslog-ng.inc
 
-PR .= "1"
+PR .= "2"
 SRC_URI = "https://github.com/balabit/syslog-ng/releases/download/${BP}/${BP}.tar.gz \
            file://syslog-ng.conf.systemd \
            file://syslog-ng.conf.sysvinit \
@@ -17,6 +17,7 @@ SRC_URI = "https://github.com/balabit/syslog-ng/releases/download/${BP}/${BP}.ta
            file://CVE-2022-38725-04.patch \
            file://CVE-2022-38725-05.patch \
            file://CVE-2022-38725-06.patch \
+           file://0001-afsocket-Add-ref-counted-TLSVerifier-struct.patch \
            "
 
 SRC_URI[md5sum] = "72d44ad02c2e9ba0748b3ecd3f15a7ff"
