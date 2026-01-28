@@ -11,7 +11,9 @@ SRC_URI = "git://git.code.sf.net/p/atftp/code;branch=master \
            file://atftpd.service \
            file://0001-options.c-Proper-fix-for-the-read-past-end-of-array.patch \
            file://0001-fix-buffer-overflow-in-atftpd.patch \
+           file://CVE-2020-6097.patch \
 "
+PR .= ".1"
 SRC_URI_append_libc-musl = " file://0001-argz.h-fix-musl-compile-add-missing-defines.patch \
                              file://0002-tftp.h-tftpd.h-fix-musl-compile-missing-include.patch \
                            "
