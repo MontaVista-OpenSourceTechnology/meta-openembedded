@@ -22,8 +22,10 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
            file://inetutils-1.9-PATH_PROCNET_DEV.patch \
            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
            file://0001-rcp-fix-to-work-with-large-files.patch \
+           file://CVE-2020-10188.patch \
 "
 
+PR .= ".1"
 SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
 SRC_URI[sha256sum] = "be8f75eff936b8e41b112462db51adf689715658a1b09e0d6b05d11ec92cc616"
 
