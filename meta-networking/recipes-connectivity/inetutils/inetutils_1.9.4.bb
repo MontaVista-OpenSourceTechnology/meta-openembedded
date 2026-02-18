@@ -26,9 +26,11 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
            file://fix-buffer-fortify-tfpt.patch \
            file://CVE-2021-40491.patch \
            file://CVE-2022-39028.patch \
+           file://CVE-2023-40303-p1.patch \
+           file://CVE-2023-40303-p2.patch \
 "
 
-PR .= ".3"
+PR .= ".4"
 SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
 SRC_URI[sha256sum] = "be8f75eff936b8e41b112462db51adf689715658a1b09e0d6b05d11ec92cc616"
 
