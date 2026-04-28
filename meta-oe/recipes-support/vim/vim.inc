@@ -12,6 +12,7 @@ RSUGGESTS_${PN} = "diffutils"
 LICENSE = "Vim"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=6b30ea4fa660c483b619924bc709ef99 \
                     file://runtime/doc/uganda.txt;md5=001ef779f422a0e9106d428c84495b4d"
+PR .= ".1"
 
 SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
            file://disable_acl_header_check.patch \
@@ -20,6 +21,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
            file://no-path-adjust.patch \
            file://CVE-2023-0054.patch \
            file://CVE-2023-1264.patch \
+           file://CVE-2026-39881.patch \
            "
 
 PV .= ".0820"
