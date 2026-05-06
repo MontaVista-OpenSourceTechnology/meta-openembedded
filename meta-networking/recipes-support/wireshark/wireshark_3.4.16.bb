@@ -36,8 +36,10 @@ SRC_URI += " \
     file://CVE-2026-0960.patch \
     file://CVE-2025-13945.patch \
     file://CVE-2025-5601.patch \
+    file://CVE-2025-13946.patch \
 "
 
+PR .= ".1"
 UPSTREAM_CHECK_URI = "https://1.as.dl.wireshark.org/src"
 
 SRC_URI[sha256sum] = "6acb3155b89b65bcdbcdac7a9e6a59013a6e21d8ae6a8249a9af4fe9ce3d91ba"
