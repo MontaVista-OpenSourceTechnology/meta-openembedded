@@ -6,6 +6,8 @@ LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://COPYING;md5=8ffdd6c926faaece928cf9d9640132d2"
 DEPENDS = "readline lua ncurses"
 
+PR .= ".1"
+
 SRC_URI = "http://download.redis.io/releases/${BP}.tar.gz \
            file://redis.conf \
            file://init-redis-server \
@@ -29,6 +31,8 @@ SRC_URI = "http://download.redis.io/releases/${BP}.tar.gz \
            file://CVE-2025-46818.patch \
            file://CVE-2025-46819.patch \
            file://CVE-2025-49844.patch \
+           file://CVE-2026-23631.patch \
+           file://CVE-2026-25243.patch \
            "
 SRC_URI[sha256sum] = "98066f5363504b26c34dd20fbcc3c957990d764cdf42576c836fc021073f4341"
 
