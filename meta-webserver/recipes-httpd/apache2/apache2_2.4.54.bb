@@ -26,9 +26,10 @@ SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
         file://volatiles.04_apache2 \
         file://CVE-2023-25690.patch \
         file://CVE-2023-27522.patch \
+        file://CVE-2026-34032.patch \
         "
 
-PR = "r1"
+PR = "r2"
 
 LIC_FILES_CHKSUM = "file://LICENSE;md5=bddeddfac80b2c9a882241d008bb41c3"
 SRC_URI[md5sum] = "861b43073ab416d689f1fc4dfa087711"
