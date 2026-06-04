@@ -15,4 +15,12 @@ SRC_URI += "file://CVE-2019-20372.patch \
             file://CVE-2026-27651.patch \
             file://CVE-2026-27654.patch \
             file://CVE-2026-32647.patch \
+            file://CVE-2026-40701.patch \
+            file://CVE-2026-42934.patch \
+            file://CVE-2026-42945.patch \
+            file://CVE-2026-42946-1.patch \
+            file://CVE-2026-42946-2.patch \
+            file://CVE-2026-9256.patch \
            "
+
+PR .= ".1"
