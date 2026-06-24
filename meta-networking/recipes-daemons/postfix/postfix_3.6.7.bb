@@ -15,6 +15,8 @@ SRC_URI += "ftp://ftp.porcupine.org/mirrors/postfix-release/official/postfix-${P
             file://0006-makedefs-Account-for-linux-6.x-version.patch \
             file://CVE-2023-51764-1.patch \
             file://CVE-2023-51764-2.patch \ 
+            file://CVE-2026-43964.patch \ 
            "
+PR = "r1"
 SRC_URI[sha256sum] = "e471df7e0eb11c4a1e574b6d7298f635386e2843b6b3584c25a04543d587e07f"
 UPSTREAM_CHECK_REGEX = "postfix\-(?P<pver>3\.6(\.\d+)+).tar.gz"
