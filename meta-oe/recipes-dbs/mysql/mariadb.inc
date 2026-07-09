@@ -4,7 +4,7 @@ SECTION = "libs"
 LICENSE = "GPL-2.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b1becf0cfa3366e0f4d854d1d264f311"
 
-PR .= ".1"
+PR .= ".2"
 
 SRC_URI = "https://archive.mariadb.org/${BP}/source/${BP}.tar.gz \
            file://my.cnf \
@@ -41,6 +41,7 @@ SRC_URI = "https://archive.mariadb.org/${BP}/source/${BP}.tar.gz \
 	   file://CVE-2025-13699-1.patch \
 	   file://CVE-2025-13699-2.patch \
 	   file://CVE-2026-49261.patch \
+           file://CVE-2026-44172.patch \
           "
 SRC_URI:append:libc-musl = " file://ppc-remove-glibc-dep.patch"
 
