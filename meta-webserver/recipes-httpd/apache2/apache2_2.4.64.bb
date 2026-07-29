@@ -4,7 +4,7 @@ SUMMARY = "Apache HTTP Server"
 HOMEPAGE = "http://httpd.apache.org/"
 SECTION = "net"
 LICENSE = "Apache-2.0"
-PR .= "12"
+PR .= "13"
 
 SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://0001-configure-use-pkg-config-for-PCRE-detection.patch \
@@ -26,6 +26,7 @@ SRC_URI = "${APACHE_MIRROR}/httpd/httpd-${PV}.tar.bz2 \
            file://CVE-2026-34059.patch \
            file://CVE-2026-33007.patch \
            file://CVE-2026-33523.patch \
+           file://CVE-2026-49975.patch \
           "
 
 SRC_URI:append:class-target = " \
