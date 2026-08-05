@@ -14,9 +14,12 @@ DEPENDS = "virtual/libiconv autoconf-archive"
 
 inherit pkgconfig autotools gettext texinfo gtk-doc
 
+PR .= ".1"
 SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz \
            file://dont-depend-on-help2man.patch \
            file://0001-idn-format-security-warnings.patch \
+           file://0001-fix-doc-generation-to-use-GDOC_BIN-instead-of-.-gdoc.patch \
+           file://CVE-2026-57053.patch \
            "
 
 SRC_URI[md5sum] = "813c7b268d1051ca02c3610986126f38"
