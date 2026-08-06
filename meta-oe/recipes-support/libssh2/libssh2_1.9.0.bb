@@ -11,6 +11,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
            file://CVE-2019-17498.patch \
            file://CVE-2020-22218.patch \
            file://CVE-2026-7598.patch \
+           file://CVE-2026-58050.patch \
 "
 
 PR .= ".1"
