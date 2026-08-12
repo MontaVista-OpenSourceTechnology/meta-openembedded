@@ -7,7 +7,10 @@ SRC_URI = " \
     ${SOURCEFORGE_MIRROR}/giflib/${BP}.tar.bz2 \
     file://CVE-2019-15133.patch \
     file://CVE-2020-23922.patch \
+    file://CVE-2026-26740.patch \
 "
+
+PR .= "1"
 
 CVE_PRODUCT = "giflib_project:giflib"
 
