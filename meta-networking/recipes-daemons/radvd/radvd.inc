@@ -19,7 +19,12 @@ SRC_URI = "http://v6web.litech.org/radvd/dist/radvd-${PV}.tar.gz \
            file://radvd.service \
            file://volatiles.03_radvd \
            file://radvd.default \
-           file://radvd.conf"
+           file://radvd.conf \
+           file://CVE-2026-48715-pre1.patch \
+           file://CVE-2026-48715.patch \
+	   "
+
+PR .= "1"
 
 inherit autotools useradd pkgconfig systemd
 
