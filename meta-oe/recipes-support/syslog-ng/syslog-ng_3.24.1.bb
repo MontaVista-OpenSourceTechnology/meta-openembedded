@@ -10,7 +10,9 @@ SRC_URI += " \
            file://shebang.patch \
            file://syslog-ng-tmp.conf \
            file://CVE-2022-38725.patch \
+           file://CVE-2024-47619.patch \
            "
 
+PR .= ".1"
 SRC_URI[md5sum] = "ef9de066793f7358af7312b964ac0450"
 SRC_URI[sha256sum] = "d4d0a0357b452be96b69d6f741129275530d8f0451e35adc408ad5635059fa3d"
