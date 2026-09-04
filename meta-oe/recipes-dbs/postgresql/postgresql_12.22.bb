@@ -2,7 +2,7 @@ require postgresql.inc
 
 LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=89afbb2d7716371015101c2b2cb4297a"
 
-PR .= "2"
+PR .= "3"
 
 SRC_URI += "\
    file://not-check-libperl.patch \
@@ -23,6 +23,10 @@ SRC_URI += "\
    file://CVE-2025-1094-12.patch \
    file://CVE-2025-4207.patch \
    file://CVE-2025-12818.patch \
+   file://CVE-2026-2004-001.patch \
+   file://CVE-2026-2004-002.patch \
+   file://CVE-2026-2004-003.patch \
+   file://CVE-2026-2005.patch \
 "
 
 SRC_URI[sha256sum] = "8df3c0474782589d3c6f374b5133b1bd14d168086edbc13c6e72e67dd4527a3b"
