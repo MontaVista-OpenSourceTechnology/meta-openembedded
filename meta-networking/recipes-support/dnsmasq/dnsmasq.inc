@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
                     file://COPYING-v3;md5=d32239bcb673463ab874e80d47fae504 \
                     "
 
-PR .= ".1"
+PR .= ".2"
 
 #at least versions 2.69 and prior are moved to the archive folder on the server
 SRC_URI = "http://www.thekelleys.org.uk/dnsmasq/${@['archive/', ''][float(d.getVar('PV').split('.')[1]) > 69]}dnsmasq-${PV}.tar.gz;name=dnsmasq-${PV} \
@@ -20,6 +20,7 @@ SRC_URI = "http://www.thekelleys.org.uk/dnsmasq/${@['archive/', ''][float(d.getV
            file://CVE-2026-4891.patch \
            file://CVE-2026-4892.patch \
            file://CVE-2026-4893.patch \
+           file://CVE-2026-5172.patch \
 "
 
 inherit pkgconfig update-rc.d systemd
