@@ -5,7 +5,7 @@ HOMEPAGE = "https://pillow.readthedocs.io"
 LICENSE = "HPND"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=bc416d18f294943285560364be7cbec1"
 
-PR .= ".1"
+PR .= ".2"
 
 SRC_URI = "git://github.com/python-pillow/Pillow.git;branch=main;protocol=https \
            file://0001-support-cross-compiling.patch \
@@ -18,6 +18,8 @@ SRC_URI = "git://github.com/python-pillow/Pillow.git;branch=main;protocol=https 
 	   file://CVE-2023-50447-4.patch \
            file://CVE-2024-28219.patch \
            file://CVE-2026-42310.patch \
+           file://CVE-2026-54058.patch \
+           file://CVE-2026-42308.patch \
            "
 SRCREV ?= "82541b6dec8452cb612067fcebba1c5a1a2bfdc8"
 
