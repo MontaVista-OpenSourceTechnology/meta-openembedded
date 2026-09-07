@@ -12,9 +12,16 @@ SRC_URI = "https://download.strongswan.org/strongswan-${PV}.tar.bz2 \
            file://CVE-2025-62291.patch \
            file://CVE-2026-25075.patch \
            file://CVE-2026-35334.patch \
+           file://CVE-2026-35328.patch \
+           file://CVE-2026-35329.patch \
+           file://CVE-2026-35330.patch \
+           file://CVE-2026-35331-pre.patch \
+           file://CVE-2026-35331.patch \
+           file://CVE-2026-35332.patch \
+           file://CVE-2026-35333.patch \
            "
 
-PR .= ".1"
+PR .= ".2"
 SRC_URI[sha256sum] = "56e30effb578fd9426d8457e3b76c8c3728cd8a5589594b55649b2719308ba55"
 
 UPSTREAM_CHECK_REGEX = "strongswan-(?P<pver>\d+(\.\d+)+)\.tar"
