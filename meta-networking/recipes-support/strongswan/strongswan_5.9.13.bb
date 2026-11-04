@@ -19,6 +19,10 @@ SRC_URI = "https://download.strongswan.org/strongswan-${PV}.tar.bz2 \
            file://CVE-2026-35331.patch \
            file://CVE-2026-35332.patch \
            file://CVE-2026-35333.patch \
+           file://CVE-2026-78130.patch \
+           file://CVE-2026-78132.patch \
+           file://CVE-2026-78134.patch \
+           file://CVE-2026-78135.patch \
            "
 
 PR .= ".2"
